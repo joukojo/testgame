@@ -42,6 +42,9 @@ public class CollisionDetectionWorker implements Runnable {
 										LOG.debug("we have a hit");
 										monster.setDestroyed(true);
 										bullet.setDestroyed(true);
+										
+										Player player  = (Player) worldCore.getMoveable("player");
+										player.score += 100; 
 									}
 								}
 							}

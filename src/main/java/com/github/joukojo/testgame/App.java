@@ -48,6 +48,7 @@ public class App {
 		
 		WorldCoreTask worldCoreTask = new WorldCoreTask();
 		Thread worldThread = new Thread(worldCoreTask, "worldcore-worker");
+		worldThread.setPriority(Thread.MIN_PRIORITY);
 		worldThread.start();
 	}
 }

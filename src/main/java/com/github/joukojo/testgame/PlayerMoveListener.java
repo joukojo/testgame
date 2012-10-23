@@ -15,10 +15,10 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 	private final static Logger LOG = LoggerFactory.getLogger(PlayerMoveListener.class);
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		Point locationOnScreen = e.getLocationOnScreen();
-		LOG.debug("mouse clicked");
-		LOG.debug("location x:" + locationOnScreen.x);
-		LOG.debug("location y:" + locationOnScreen.y);
+//		Point locationOnScreen = e.getLocationOnScreen();
+//		LOG.debug("mouse clicked");
+//		LOG.debug("location x:" + locationOnScreen.x);
+//		LOG.debug("location y:" + locationOnScreen.y);
 
 	}
 
@@ -42,45 +42,49 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		Point locationOnScreen = e.getLocationOnScreen();
-		LOG.debug("mouse released");
-		LOG.debug("location x:" + locationOnScreen.x);
-		LOG.debug("location y:" + locationOnScreen.y);
+//		Point locationOnScreen = e.getLocationOnScreen();
+//		LOG.debug("mouse released");
+//		LOG.debug("location x:" + locationOnScreen.x);
+//		LOG.debug("location y:" + locationOnScreen.y);
 
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		Point locationOnScreen = e.getLocationOnScreen();
-		LOG.debug("mouse entered");
-		LOG.debug("location x:" + locationOnScreen.x);
-		LOG.debug("location y:" + locationOnScreen.y);
+//		Point locationOnScreen = e.getLocationOnScreen();
+//		LOG.debug("mouse entered");
+//		LOG.debug("location x:" + locationOnScreen.x);
+//		LOG.debug("location y:" + locationOnScreen.y);
 		
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		Point locationOnScreen = e.getPoint();
-		LOG.debug("mouse exited");
-		LOG.debug("location x:" + locationOnScreen.x);
-		LOG.debug("location y:" + locationOnScreen.y);
-
-
+//		Point locationOnScreen = e.getPoint();
+//		LOG.debug("mouse exited");
+//		LOG.debug("location x:" + locationOnScreen.x);
+//		LOG.debug("location y:" + locationOnScreen.y);
+//
+//
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		Point locationOnScreen = e.getLocationOnScreen();
-		LOG.debug("mouse dragged");
-		LOG.debug("location x:" + locationOnScreen.x);
-		LOG.debug("location y:" + locationOnScreen.y);
-		
+//		Point locationOnScreen = e.getLocationOnScreen();
+//		LOG.debug("mouse dragged");
+//		LOG.debug("location x:" + locationOnScreen.x);
+//		LOG.debug("location y:" + locationOnScreen.y);
+		WorldCore worldCore = WorldCoreFactory.getWorld();
+		Player player = (Player) worldCore.getMoveable("player");
+		player.point = e.getPoint();
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
+		WorldCore worldCore = WorldCoreFactory.getWorld();
+		Player player = (Player) worldCore.getMoveable("player");
+		player.point = e.getPoint();
 		
 	}
 

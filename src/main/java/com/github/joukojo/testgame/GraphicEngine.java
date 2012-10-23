@@ -2,6 +2,7 @@ package com.github.joukojo.testgame;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -44,7 +45,11 @@ public class GraphicEngine extends JFrame {
 		PlayerMoveListener mouseListener = new PlayerMoveListener();
 		canvas.addMouseMotionListener(mouseListener);
 		canvas.addMouseListener(mouseListener);
+		
 		add(canvas);
+		
+		setLocationRelativeTo(null);
+		
 		pack();
 		setVisible(true);
 		canvas.createBufferStrategy(2);
@@ -79,6 +84,16 @@ public class GraphicEngine extends JFrame {
 
 			LOG.debug("drawing objects"); 
 			drawObjects(g2d);
+		
+			
+			g2d.setFont(new Font("Courier New", Font.PLAIN, 12));
+			g2d.setColor(Color.GREEN);
+			WorldCore worldCore = WorldCoreFactory.getWorld();
+			Player player  = (Player) worldCore.getMoveable("player");
+			int level = player.level;  
+			g2d.drawString("Level:" + level, 20, 20);
+			g2d.drawString("Score:" + player.score, 20, 40);
+			g2d.drawString("Health:" +player.health, 20, 60);
 			
 			// display frames per second...
 //			g2d.setFont(new Font("Courier New", Font.PLAIN, 12));

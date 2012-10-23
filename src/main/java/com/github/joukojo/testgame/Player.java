@@ -49,7 +49,11 @@ public class Player implements Moveable {
 
 	int positionY = 0; 
 	double directionX = 0;
-	double directionY = 0; 
+	double directionY = 0;
+	public int level = 1;
+	public long score = 0;
+	public long health = 100;
+	public Point point = new Point(300, 300); 
 	
 	public void setTarget(Point point) {
 		/*
@@ -74,18 +78,43 @@ public class Player implements Moveable {
 
 	@Override
 	public void move() {
-		Point point = MouseInfo.getPointerInfo().getLocation();
-		LOG.debug("location x:" + point.x);
-		LOG.debug("location y:" + point.y);
+		
 		int targetX = point.x;
 		int targetY = point.y;
 		
-		directionX = ((targetX - positionX) * 0.1); 
-		directionY = ((targetY - positionY) * 0.1);
+		directionX = ((targetX - positionX) * 0.05); 
+		directionY = ((targetY - positionY) * 0.05);
 
 		
-		positionX = (int) (positionX + directionX); 
-		positionY = (int) (positionY + directionY);
+		double newPositionX = (double) (positionX + directionX); 
+		double newPositionY = (double) (positionY + directionY);
+		
+		LOG.debug("newPositionX {}", newPositionX);
+		LOG.debug("newPositionY {}", newPositionY);
+
+		if( newPositionX <= 0 ) {
+			positionX = 0; 
+		}
+		else if ( newPositionX >= Constants.SCREEN_WIDTH ) {
+			positionX = Constants.SCREEN_WIDTH;
+		}
+		else {
+			positionX = (int) newPositionX;
+		}
+		
+		if( newPositionY <= 0 ) {
+			positionY = 0; 
+		}
+		else if ( newPositionY >= Constants.SCREEN_HEIGHT ) {
+			positionY = Constants.SCREEN_HEIGHT;
+		}
+		else {
+			positionY = (int) newPositionY;
+		}
+		LOG.debug("PositionX {}", positionX);
+		LOG.debug("PositionY {}", positionY);
+		
+		
 	}
 	
 	@Override

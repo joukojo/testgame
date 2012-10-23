@@ -23,21 +23,25 @@ public class MonsterCreatorTask implements Runnable {
 	}
 
 	public void incrementLevel() {
-		level++;
+		WorldCore worldCore = WorldCoreFactory.getWorld();
+		Player player  = (Player) worldCore.getMoveable("player");
+		player.level += 1; 
+		
 
 	}
 
 	public void createMonsters() {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Random random = new Random();
+		Player player  = (Player) worldCore.getMoveable("player");
 		LOG.debug("current level: {}", level);
-		for (int i = 0; i < level * 2; i++) {
+		for (int i = 0; i < player.level * 2; i++) {
 			final Monster monster = new Monster();
 			monster.locationX = random.nextInt(Constants.SCREEN_WIDTH);
 			monster.locationY = 0;
 
 			try {
-				Thread.sleep(500);
+				Thread.sleep(4000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -61,8 +65,6 @@ public class MonsterCreatorTask implements Runnable {
 		List<Moveable> moveableMonsters = worldCore
 				.getMoveableObjects("monsters");
 		if (moveableMonsters != null && !moveableMonsters.isEmpty()) {
-
-			List<Moveable> removedMonsters = new ArrayList<Moveable>();
 			for (Moveable moveable : moveableMonsters) {
 				if (moveable.isOutside(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)) {
 					moveable.setDestroyed(true);

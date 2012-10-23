@@ -15,10 +15,10 @@
 	</logger>
 	
 	<logger name="com.github.joukojo.testgame.world.core">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>	
-	<logger name="com.github.joukojo.testgame.world.core.WOrldCoreTask">
-		<level value="debug" />
+	<logger name="com.github.joukojo.testgame.world.core.WorldCoreTask">
+		<level value="warn" />
 	</logger>	
 	
 	
@@ -27,11 +27,11 @@
 	</logger>
 	
 	<logger name="com.github.joukojo.testgame.Player">
-		<level value="warn" />
+		<level value="debug" />
 	</logger>	
 	<!-- Setup the Root category -->
 	<root>
-		<priority value="debug" />
+		<priority value="warn" />
 		<appender-ref ref="console" />
 		
 	</root>
