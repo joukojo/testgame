@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/docs/api/org/apache/log4j/xml/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="false">
+	
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p %c{1} - %m%n" />
+		</layout>
+	</appender>
+	<!-- Custom added loggers -->
+	<logger name="com.github.joukojo.testgame.GraphicEngine">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="com.github.joukojo.testgame.world.core">
+		<level value="debug" />
+	</logger>	
+	<logger name="com.github.joukojo.testgame.world.core.WOrldCoreTask">
+		<level value="debug" />
+	</logger>	
+	
+	
+	<logger name="com.github.joukojo.testgame.PlayerMoveListener">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="com.github.joukojo.testgame.Player">
+		<level value="warn" />
+	</logger>	
+	<!-- Setup the Root category -->
+	<root>
+		<priority value="debug" />
+		<appender-ref ref="console" />
+		
+	</root>
+</log4j:configuration>
