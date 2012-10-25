@@ -1,7 +1,6 @@
 package com.github.joukojo.testgame.world.core;
 
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +14,7 @@ import org.slf4j.LoggerFactory;
 public class WorldCoreTask implements Runnable {
 
 	private volatile boolean isRunning;
-	private final static Logger LOG = LoggerFactory
-			.getLogger(WorldCoreTask.class);
+	private final static Logger LOG = LoggerFactory.getLogger(WorldCoreTask.class);
 
 	public WorldCoreTask() {
 		isRunning = true;
@@ -35,11 +33,9 @@ public class WorldCoreTask implements Runnable {
 
 			for (String objectName : objectNames) {
 
-				final List<Moveable> moveableObjects = worldCore
-						.getMoveableObjects(objectName);
-				Object params[] ={objectName, moveableObjects.size()};
-				LOG.debug("the size of the moveable objects:{}:{}",
-						params);
+				final List<Moveable> moveableObjects = worldCore.getMoveableObjects(objectName);
+				Object params[] = { objectName, moveableObjects.size() };
+				LOG.debug("the size of the moveable objects:{}:{}", params);
 				for (final Moveable moveable : moveableObjects) {
 					LOG.trace("moving object: {}", moveable);
 					moveable.move();
