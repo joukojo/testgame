@@ -9,6 +9,10 @@ public class Bullet implements Moveable {
 
 	int locationX;
 	int locationY;
+	
+	double directionX = 0.0;
+	double directionY = 0.0;
+	
 	private boolean isDestroyed = false;
 
 	public int getLocationX() {
@@ -43,17 +47,16 @@ public class Bullet implements Moveable {
 		this.directionY = directionY;
 	}
 
-	double directionX = 0.0;
-	double directionY = 0.0;
 
 	@Override
 	public void draw(Graphics graphics) {
 		if (!isDestroyed()) {
 			graphics.setColor(Color.WHITE);
 
-			int deltaY = (int) (locationY + directionY);
-			int deltaX = (int) (locationX + directionX);
-			graphics.drawLine(locationX, locationY, (int) deltaX, deltaY);
+//			int deltaY = (int) (locationY + directionY);
+//			int deltaX = (int) (locationX + directionX);
+//			//graphics.drawLine(locationX, locationY, (int) deltaX, deltaY);
+			graphics.drawOval(locationX, locationY, 5, 5);
 		}
 
 	}
