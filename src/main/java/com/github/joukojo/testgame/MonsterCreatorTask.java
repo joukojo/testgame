@@ -1,6 +1,5 @@
 package com.github.joukojo.testgame;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -40,14 +39,13 @@ public class MonsterCreatorTask implements Runnable {
 			monster.locationX = random.nextInt(Constants.SCREEN_WIDTH);
 			monster.locationY = 0;
 
-			try {
-				Thread.sleep(4000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			worldCore.addMoveable("monsters", monster);
-
+			try {
+				Thread.sleep(4000 - (player.level * 150));
+			} catch (InterruptedException e) {
+				LOG.warn("Thread is interrupted: {}", e.getMessage());
+				Thread.interrupted();
+			}
 		}
 	}
 
@@ -67,7 +65,16 @@ public class MonsterCreatorTask implements Runnable {
 		if (moveableMonsters != null && !moveableMonsters.isEmpty()) {
 			for (Moveable moveable : moveableMonsters) {
 				if (moveable.isOutside(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)) {
+					
+					if( !moveable.isDestroyed()) {
+						// The monster has reached the down -> decrease health
+						Player player  = (Player) worldCore.getMoveable("player");
+						player.health -= 10;
+					}
+					
 					moveable.setDestroyed(true);
+					
+					
 				}
 			}
 
