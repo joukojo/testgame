@@ -2,7 +2,6 @@ package com.github.joukojo.testgame.world.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +9,6 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.github.joukojo.testgame.Player;
 
 public class WorldCoreImpl implements WorldCore {
 
@@ -140,7 +137,7 @@ public class WorldCoreImpl implements WorldCore {
 		boolean isRemoved = objects.remove(moveable);
 
 		LOG.debug("isRemoved: {}", isRemoved);
-		int i = 0;
+		
 	}
 
 	@Override
