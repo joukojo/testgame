@@ -1,8 +1,5 @@
 package com.github.joukojo.testgame;
 
-import java.awt.MouseInfo;
-import java.awt.Point;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +18,11 @@ public class GraphicEngineWorker implements Runnable {
 	public void run() {
 
 		while (isRunning()) {
+			LOG.debug("drawing objects");
 			graphicEngine.drawObjects();
 			// Let the OS have a little time...
+			
+			LOG.debug("thread yield");
 			Thread.yield();
 
 		}
