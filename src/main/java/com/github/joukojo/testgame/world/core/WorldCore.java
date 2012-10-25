@@ -1,7 +1,6 @@
 package com.github.joukojo.testgame.world.core;
 
 import java.util.List;
-import java.util.Set;
 
 public interface WorldCore {
 
