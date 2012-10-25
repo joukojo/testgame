@@ -10,6 +10,7 @@ public class WorldCoreFactory {
 	
 	public static synchronized WorldCore getWorld() {
 		if( INSTANCE == null ) {
+			LOG.debug("creating world instance"); 
 			INSTANCE = new WorldCoreImpl();
 		}
 		return INSTANCE; 
