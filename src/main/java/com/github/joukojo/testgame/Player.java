@@ -2,7 +2,6 @@ package com.github.joukojo.testgame;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.MouseInfo;
 import java.awt.Point;
 
 import org.slf4j.Logger;
@@ -72,7 +71,7 @@ public class Player implements Moveable {
 	@Override
 	public void draw(Graphics graphics) {
 		graphics.setColor(Color.RED);
-		graphics.drawRect(positionX, positionY, 10, 10);
+		graphics.drawRect(positionX, positionY, 20, 20);
 
 	}
 
