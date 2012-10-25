@@ -1,7 +1,5 @@
 package com.github.joukojo.testgame;
 
-import java.util.Random;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
