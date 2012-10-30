@@ -27,7 +27,7 @@
 	</logger>
 	
 	<logger name="com.github.joukojo.testgame.Player">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>	
 	<!-- Setup the Root category -->
 	<root>

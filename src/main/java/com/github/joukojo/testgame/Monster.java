@@ -1,8 +1,9 @@
 package com.github.joukojo.testgame;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
+import com.github.joukojo.testgame.images.ImageFactory;
 import com.github.joukojo.testgame.world.core.Moveable;
 
 public class Monster implements Moveable {
@@ -16,8 +17,8 @@ public class Monster implements Moveable {
 	@Override
 	public void draw(Graphics graphics) {
 		if (!isDestroyed()) {
-			graphics.setColor(Color.GREEN);
-			graphics.drawOval(locationX, locationY, 10, 20);
+			BufferedImage monsterImage = ImageFactory.getMonsterImage();
+			graphics.drawImage(monsterImage, locationX, locationY, 68, 45, null);
 		}
 	}
 

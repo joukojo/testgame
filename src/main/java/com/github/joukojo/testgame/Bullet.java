@@ -2,7 +2,10 @@ package com.github.joukojo.testgame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
+import com.github.joukojo.testgame.images.ImageFactory;
 import com.github.joukojo.testgame.world.core.Moveable;
 
 public class Bullet implements Moveable {
@@ -56,7 +59,10 @@ public class Bullet implements Moveable {
 //			int deltaY = (int) (locationY + directionY);
 //			int deltaX = (int) (locationX + directionX);
 //			//graphics.drawLine(locationX, locationY, (int) deltaX, deltaY);
-			graphics.drawOval(locationX, locationY, 5, 5);
+			//graphics.drawOval(locationX, locationY, 5, 5);
+			BufferedImage bulletImage = ImageFactory.getBulletImage();
+			ImageObserver observer = null;
+			graphics.drawImage(bulletImage, locationX, locationY, 15, 15, observer );
 		}
 
 	}
