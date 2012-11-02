@@ -81,10 +81,10 @@ public class WorldCoreImpl implements WorldCore {
 
 	@Override
 	public List<Drawable> getAllDrawables() {
-		Collection<List<Drawable>> allValues = drawableObjects.values();
+		final Collection<List<Drawable>> allValues = drawableObjects.values();
 
-		List<Drawable> allDrawableObjects = new ArrayList<Drawable>();
-		for (List<Drawable> list : allValues) {
+		final List<Drawable> allDrawableObjects = new ArrayList<Drawable>();
+		for (final List<Drawable> list : allValues) {
 			allDrawableObjects.addAll(list);
 		}
 		return allDrawableObjects;

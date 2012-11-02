@@ -1,6 +1,5 @@
 package com.github.joukojo.testgame;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
@@ -54,13 +53,7 @@ public class Bullet implements Moveable {
 	@Override
 	public void draw(Graphics graphics) {
 		if (!isDestroyed()) {
-			graphics.setColor(Color.WHITE);
-
-//			int deltaY = (int) (locationY + directionY);
-//			int deltaX = (int) (locationX + directionX);
-//			//graphics.drawLine(locationX, locationY, (int) deltaX, deltaY);
-			//graphics.drawOval(locationX, locationY, 5, 5);
-			BufferedImage bulletImage = ImageFactory.getBulletImage();
+			final BufferedImage bulletImage = ImageFactory.getBulletImage();
 			ImageObserver observer = null;
 			graphics.drawImage(bulletImage, locationX, locationY, 15, 15, observer );
 		}
@@ -69,14 +62,14 @@ public class Bullet implements Moveable {
 
 	@Override
 	public void move() {
-		locationX = (int) (locationX + directionX);
-		locationY = (int) (locationY + directionY);
+		locationX = (int) (locationX + (directionX * 1.2));
+		locationY = (int) (locationY + directionY * 1.2);
 
 	}
 
 	@Override
 	public boolean isOutside(int x, int y) {
-		return (locationX > x || locationX <= 0)
+		return (locationX > x || locationX == 0)
 				|| (locationY > y || locationY <= 0);
 	}
 

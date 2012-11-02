@@ -31,6 +31,18 @@ public class CollisionDetectionWorker implements Runnable {
 			}
 
 			// FIXME do the player collision detection here
+			
+			Player player  = (Player) worldCore.getMoveable("player");
+			List<Moveable> monsters = worldCore.getMoveableObjects("monsters");
+
+			for (Moveable moveable : monsters) {
+				Monster monster = (Monster) moveable; 
+				if( monster != null && !monster.isDestroyed() ) {
+					isPlayerAndMonsterInCollision(worldCore, player, monster);
+				}
+				
+			}
+			
 
 			Thread.yield();
 		}
@@ -53,10 +65,17 @@ public class CollisionDetectionWorker implements Runnable {
 
 	private void isBulletAndMonsterInCollision(WorldCore worldCore, Bullet bullet, Monster monster) {
 		if (!monster.isDestroyed() && !bullet.isDestroyed()) {
+			
+			// correct the monster location 
+			int monsterRealX = monster.locationX + 34; 
+			int monsterRealY = monster.locationY + 13; 
+			
+			
+			
 			int deltaX = Math.abs(bullet.locationX
-					- monster.locationX);
+					- monsterRealX);
 			int deltaY = Math.abs(bullet.locationY
-					- monster.locationY);
+					- monsterRealY);
 			LOG.trace("deltaX {}", deltaX);
 			LOG.trace("deltaY {}", deltaY);
 			if (deltaX < 20 && deltaY < 20) {
@@ -69,5 +88,30 @@ public class CollisionDetectionWorker implements Runnable {
 			}
 		}
 	}
+	
+	private void isPlayerAndMonsterInCollision(WorldCore worldCore, Player player, Monster monster) {
+		if (!monster.isDestroyed()) {
+			
+			// correct the monster location 
+			int monsterRealX = monster.locationX + 34; 
+			int monsterRealY = monster.locationY + 13; 
+			
+			
+			
+			int deltaX = Math.abs(player.positionX
+					- monsterRealX);
+			int deltaY = Math.abs(player.positionY
+					- monsterRealY);
+			LOG.trace("deltaX {}", deltaX);
+			LOG.trace("deltaY {}", deltaY);
+			if (deltaX < 20 && deltaY < 20) {
+				LOG.debug("we have a hit with monster");
+				monster.setDestroyed(true);
+				
+				player.health -= 1; 
+			}
+		}
+	}
+
 
 }
