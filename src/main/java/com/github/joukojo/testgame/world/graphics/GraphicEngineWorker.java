@@ -1,4 +1,4 @@
-package com.github.joukojo.testgame;
+package com.github.joukojo.testgame.world.graphics;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

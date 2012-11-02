@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.github.joukojo.testgame.world.core.WorldCore;
 import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 import com.github.joukojo.testgame.world.core.WorldCoreTask;
+import com.github.joukojo.testgame.world.graphics.GraphicEngine;
+import com.github.joukojo.testgame.world.graphics.GraphicEngineWorker;
 
 /**
  * Hello world!
@@ -19,16 +21,10 @@ public class App {
 		LOG.debug("starting up the graphic engine");
 		final GraphicEngine engine = new GraphicEngine();
 
-//		PlayerMoveListener mouseListener = new PlayerMoveListener();
-//		
-//		engine.addMouseListener(mouseListener );
-//		engine.addMouseMotionListener(mouseListener);
 		WorldCore worldCore = WorldCoreFactory.getWorld();		
 		Player player = new Player();
 		player.positionX = 500; 
 		player.positionY = 100; 
-		
-		
 
 		worldCore.addMoveable("player", player);
 		Thread monsterCreator = new Thread(new MonsterCreatorTask(), "monster-creator");

@@ -14,7 +14,7 @@ public class CollisionDetectionWorker implements Runnable {
 
 	private final static Logger LOG = LoggerFactory
 			.getLogger(CollisionDetectionWorker.class);
-	private boolean isRunning;
+	private volatile boolean isRunning;
 
 	@Override
 	public void run() {

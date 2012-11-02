@@ -1,4 +1,4 @@
-package com.github.joukojo.testgame;
+package com.github.joukojo.testgame.world.graphics;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -18,6 +18,9 @@ import javax.swing.WindowConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.joukojo.testgame.Constants;
+import com.github.joukojo.testgame.Player;
+import com.github.joukojo.testgame.PlayerMoveListener;
 import com.github.joukojo.testgame.world.core.Drawable;
 import com.github.joukojo.testgame.world.core.Moveable;
 import com.github.joukojo.testgame.world.core.WorldCore;
