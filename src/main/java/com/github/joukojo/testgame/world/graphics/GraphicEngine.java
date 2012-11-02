@@ -87,22 +87,9 @@ public class GraphicEngine extends JFrame {
 
 			LOG.debug("drawing objects"); 
 			drawObjects(g2d);
-		
 			
-			g2d.setFont(new Font("Courier New", Font.PLAIN, 12));
-			g2d.setColor(Color.GREEN);
-			WorldCore worldCore = WorldCoreFactory.getWorld();
-			Player player  = (Player) worldCore.getMoveable("player");
-			int level = player.level;  
-			g2d.drawString("Level:" + level, 20, 20);
-			g2d.drawString("Score:" + player.score, 20, 40);
-			g2d.drawString("Health:" +player.health, 20, 60);
+			drawStatusTexts(g2d);
 			
-			// display frames per second...
-//			g2d.setFont(new Font("Courier New", Font.PLAIN, 12));
-//			g2d.setColor(Color.GREEN);
-//			g2d.drawString(String.format("FPS: %s", fps), 20, 20);
-
 			// Blit image and flip...
 			LOG.debug("blit image and flip");
 			graphics = buffer.getDrawGraphics();
@@ -117,6 +104,17 @@ public class GraphicEngine extends JFrame {
 			if (g2d != null)
 				g2d.dispose();
 		}
+	}
+
+	private void drawStatusTexts(Graphics2D g2d) {
+		g2d.setFont(new Font("Courier New", Font.PLAIN, 12));
+		g2d.setColor(Color.GREEN);
+		WorldCore worldCore = WorldCoreFactory.getWorld();
+		Player player  = (Player) worldCore.getMoveable("player");
+		int level = player.level;  
+		g2d.drawString("Level:" + level, 20, 20);
+		g2d.drawString("Score:" + player.score, 20, 40);
+		g2d.drawString("Health:" +player.health, 20, 60);
 	}
 
 
