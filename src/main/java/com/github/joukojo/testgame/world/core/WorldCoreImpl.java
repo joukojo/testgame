@@ -65,12 +65,13 @@ public class WorldCoreImpl implements WorldCore {
 		for (String key : keys) {
 			List<Moveable> entries = moveableObjects.get(key);
 			List<Moveable> stillActiveEntries = new ArrayList<Moveable>();
-			for (int i = 0; i < entries.size(); i++) {
-				Moveable moveable = entries.get(i);
 
+			for (Moveable moveable : entries) {
+				
 				if (!moveable.isDestroyed()) {
 					stillActiveEntries.add(moveable);
 				}
+				
 			}
 
 			moveableObjects.put(key, stillActiveEntries);

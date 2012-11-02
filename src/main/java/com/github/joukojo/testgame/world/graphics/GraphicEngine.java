@@ -40,6 +40,7 @@ public class GraphicEngine extends JFrame {
 
 	public GraphicEngine() {
 		super();
+		setTitle("testgame - alpha");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 		canvas = new Canvas();
