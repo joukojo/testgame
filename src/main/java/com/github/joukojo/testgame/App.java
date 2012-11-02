@@ -18,6 +18,7 @@ public class App {
 		GameEngine gameEngine = GameEngine.getInstance();
 		gameEngine.init();
 		LOG.debug("game engine initialized"); 
+		
 		JOptionPane.showMessageDialog(null, "Ready to play"); 
 		
 		gameEngine.startGame();
