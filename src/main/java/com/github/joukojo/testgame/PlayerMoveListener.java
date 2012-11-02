@@ -84,7 +84,9 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 	public void mouseMoved(MouseEvent e) {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Player player = (Player) worldCore.getMoveable("player");
-		player.point = e.getPoint();
+		if( player != null ) {
+			player.point = e.getPoint();
+		}
 		
 	}
 

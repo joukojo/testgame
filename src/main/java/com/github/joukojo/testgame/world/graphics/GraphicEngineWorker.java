@@ -1,4 +1,4 @@
-package com.github.joukojo.testgame;
+package com.github.joukojo.testgame.world.graphics;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +19,16 @@ public class GraphicEngineWorker implements Runnable {
 
 		while (isRunning()) {
 			LOG.debug("drawing objects");
+			long start = System.currentTimeMillis();
 			graphicEngine.drawObjects();
 			// Let the OS have a little time...
+			long end = System.currentTimeMillis();
 			
+			long delta = end-start; 
+			
+			if( delta > 100L ) {
+				LOG.warn("the graphic engine draw objects in {}ms", delta);
+			}
 			LOG.debug("thread yield");
 			Thread.yield();
 

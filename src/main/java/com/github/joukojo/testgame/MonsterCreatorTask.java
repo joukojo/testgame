@@ -34,15 +34,15 @@ public class MonsterCreatorTask implements Runnable {
 		LOG.debug("current level: {}", level);
 		for (int i = 0; i < player.level * 2; i++) {
 			final Monster monster = new Monster();
-			monster.locationX = random.nextInt(Constants.SCREEN_WIDTH);
+			monster.locationX = random.nextInt(Constants.SCREEN_WIDTH- 100);
 			monster.locationY = 0;
 
 			worldCore.addMoveable("monsters", monster);
 			try {
 
 				int delta = player.level * 150;
-				if (delta < 4000) {
-					Thread.sleep(4000 - delta);
+				if (delta < 2000) {
+					Thread.sleep(2000 - delta);
 				}
 			} catch (InterruptedException e) {
 				LOG.warn("Thread is interrupted: {}", e.getMessage());

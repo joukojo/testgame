@@ -84,7 +84,7 @@ public class ImageFactory {
 		if (playerNorthEastImage == null) {
 			BufferedImage fullImage = loadPlayerImage();
 			try {
-				playerNorthEastImage = fullImage.getSubimage(149, 293, 71, 45);
+				playerNorthEastImage = fullImage.getSubimage(149, 293, 69, 45);
 			} finally {
 				fullImage.flush();
 			}
