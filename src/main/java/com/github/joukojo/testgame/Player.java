@@ -66,8 +66,25 @@ public class Player implements Moveable {
 
 	@Override
 	public void draw(Graphics graphics) {
+		
+		
+		
+		
 		graphics.setColor(Color.RED);
 		graphics.drawOval(positionX, positionY, 50, 50);
+	}
+	
+	
+	double direction(double x, double y) {
+	    if (x > 0)
+	        return Math.atan(y/x);
+	    if (x < 0)
+	        return Math.atan(y/x)+Math.PI;
+	    if (y > 0)
+	        return Math.PI/2;
+	    if (y < 0)
+	        return -Math.PI/2;
+	    return 0; // no direction
 	}
 
 	@Override
