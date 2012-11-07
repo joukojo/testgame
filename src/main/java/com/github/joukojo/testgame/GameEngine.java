@@ -30,8 +30,8 @@ public class GameEngine {
 
 		WorldCore worldCore = WorldCoreFactory.getWorld();		
 		Player player = new Player();
-		player.positionX = 500; 
-		player.positionY = 100; 
+		player.setPositionX(500); 
+		player.setPositionY(100); 
 
 		worldCore.addMoveable("player", player);
 		monsterCreatorTask = new MonsterCreatorTask();

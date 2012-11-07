@@ -111,10 +111,10 @@ public class GraphicEngine extends JFrame {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Player player = (Player) worldCore.getMoveable("player");
 		if (player != null) {
-			int level = player.level;
+			int level = player.getLevel();
 			g2d.drawString("Level:" + level, 20, 20);
-			g2d.drawString("Score:" + player.score, 20, 40);
-			g2d.drawString("Health:" + player.health, 20, 60);
+			g2d.drawString("Score:" + player.getScore(), 20, 40);
+			g2d.drawString("Health:" + player.getHealth(), 20, 60);
 		}
 	}
 

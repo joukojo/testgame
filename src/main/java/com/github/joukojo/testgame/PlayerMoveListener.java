@@ -32,10 +32,10 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Bullet bullet = new Bullet();
 		Player player = (Player) worldCore.getMoveable("player");
-		bullet.setDirectionX(player.directionX + 0.2);
-		bullet.setDirectionY(player.directionY + 0.2);
-		bullet.setLocationX(player.positionX);
-		bullet.setLocationY(player.positionY);
+		bullet.setDirectionX(player.getDirectionX() + 0.2);
+		bullet.setDirectionY(player.getDirectionY()+ 0.2);
+		bullet.setLocationX(player.getPositionX());
+		bullet.setLocationY(player.getPositionY());
 
 		worldCore.addMoveable("bullets", bullet);
 	}
@@ -77,7 +77,7 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 //		LOG.debug("location y:" + locationOnScreen.y);
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Player player = (Player) worldCore.getMoveable("player");
-		player.point = e.getPoint();
+		player.setPoint(e.getPoint());
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Player player = (Player) worldCore.getMoveable("player");
 		if( player != null ) {
-			player.point = e.getPoint();
+			player.setPoint(e.getPoint());
 		}
 		
 	}

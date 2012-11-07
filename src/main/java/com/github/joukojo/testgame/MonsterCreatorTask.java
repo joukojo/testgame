@@ -20,7 +20,7 @@ public class MonsterCreatorTask implements Runnable {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Player player = (Player) worldCore.getMoveable("player");
 		if (player != null) {
-			player.level += 1;
+			player.setLevel(player.getLevel() + 1);
 		}
 
 	}
@@ -29,8 +29,8 @@ public class MonsterCreatorTask implements Runnable {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Random random = new Random();
 		Player player = (Player) worldCore.getMoveable("player");
-		LOG.debug("current level: {}", player.level);
-		for (int i = 0; i < player.level * 2; i++) {
+		LOG.debug("current level: {}", player.getLevel());
+		for (int i = 0; i < player.getLevel() * 2; i++) {
 			final Monster monster = new Monster();
 			monster.locationX = random.nextInt(Constants.SCREEN_WIDTH - 100);
 			monster.locationY = 0;
@@ -38,7 +38,7 @@ public class MonsterCreatorTask implements Runnable {
 			worldCore.addMoveable("monsters", monster);
 			try {
 
-				int delta = player.level * 150;
+				int delta = player.getLevel() * 150;
 				if (delta < 2000) {
 					Thread.sleep(2000 - delta);
 				}
@@ -70,7 +70,7 @@ public class MonsterCreatorTask implements Runnable {
 					if (!moveable.isDestroyed()) {
 						// The monster has reached the down -> decrease health
 						final Player player = (Player) worldCore.getMoveable("player");
-						player.health -= 10;
+						player.setHealth(player.getHealth() - 10);
 					}
 
 					moveable.setDestroyed(true);

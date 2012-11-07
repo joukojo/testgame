@@ -36,7 +36,7 @@ public class App {
 			}
 
 			gameEngine.stopGame();
-			JOptionPane.showMessageDialog(null, "Game Over!\nScore: " + player.score);
+			JOptionPane.showMessageDialog(null, "Game Over!\nScore: " + player.getScore());
 			worldCore.resetWorld();
 		}
 

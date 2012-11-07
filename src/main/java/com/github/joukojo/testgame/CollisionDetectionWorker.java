@@ -84,7 +84,7 @@ public class CollisionDetectionWorker implements Runnable {
 				bullet.setDestroyed(true);
 				
 				Player player  = (Player) worldCore.getMoveable("player");
-				player.score += 100; 
+				player.setScore(player.getScore() + 100); 
 			}
 		}
 	}
@@ -98,9 +98,9 @@ public class CollisionDetectionWorker implements Runnable {
 			
 			
 			
-			int deltaX = Math.abs(player.positionX
+			int deltaX = Math.abs(player.getPositionX()
 					- monsterRealX);
-			int deltaY = Math.abs(player.positionY
+			int deltaY = Math.abs(player.getPositionY()
 					- monsterRealY);
 			LOG.trace("deltaX {}", deltaX);
 			LOG.trace("deltaY {}", deltaY);
@@ -108,7 +108,7 @@ public class CollisionDetectionWorker implements Runnable {
 				LOG.debug("we have a hit with monster");
 				monster.setDestroyed(true);
 				
-				player.health -= 1; 
+				player.setHealth(player.getHealth() - 1); 
 			}
 		}
 	}

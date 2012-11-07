@@ -13,14 +13,14 @@ import com.github.joukojo.testgame.world.core.Moveable;
 public class Player implements Moveable {
 
 	private final static Logger LOG = LoggerFactory.getLogger(Player.class);
-	int positionY = 0;
-	double directionX = 0;
-	double directionY = 0;
-	public int level = 1;
-	public long score = 0;
-	public long health = 10;
-	public Point point = new Point(300, 300);	
-	int positionX = 0;
+	private int positionY = 0;
+	private double directionX = 0;
+	private double directionY = 0;
+	private int level = 1;
+	private long score = 0;
+	private long health = 10;
+	private Point point = new Point(300, 300);	
+	private int positionX = 0;
 
 	public int getPositionX() {
 		return positionX;
@@ -95,8 +95,8 @@ public class Player implements Moveable {
 	@Override
 	public void move() {
 
-		int targetX = point.x;
-		int targetY = point.y;
+		int targetX = getPoint().x;
+		int targetY = getPoint().y;
 
 		directionX = ((targetX - positionX) * 0.05);
 		directionY = ((targetY - positionY) * 0.05);
@@ -135,7 +135,7 @@ public class Player implements Moveable {
 	@Override
 	public boolean isDestroyed() {
 		
-		return !(health > 0);
+		return !(getHealth() > 0);
 	}
 
 	@Override
@@ -147,6 +147,38 @@ public class Player implements Moveable {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public long getScore() {
+		return score;
+	}
+
+	public void setScore(long score) {
+		this.score = score;
+	}
+
+	public long getHealth() {
+		return health;
+	}
+
+	public void setHealth(long health) {
+		this.health = health;
+	}
+
+	public Point getPoint() {
+		return point;
+	}
+
+	public void setPoint(Point point) {
+		this.point = point;
 	}
 
 
