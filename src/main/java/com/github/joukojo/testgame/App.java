@@ -24,7 +24,7 @@ public class App {
 			LOG.debug("game engine initialized");
 
 			JOptionPane.showMessageDialog(null, "Ready to play");
-
+			LOG.debug("starting the game engine");
 			gameEngine.startGame();
 
 			WorldCore worldCore = WorldCoreFactory.getWorld();

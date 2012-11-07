@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,5 +143,11 @@ public class Player implements Moveable {
 		
 
 	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
 
 }

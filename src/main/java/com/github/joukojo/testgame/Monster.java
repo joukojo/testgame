@@ -3,6 +3,8 @@ package com.github.joukojo.testgame;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import com.github.joukojo.testgame.images.ImageFactory;
 import com.github.joukojo.testgame.world.core.Moveable;
 
@@ -73,6 +75,11 @@ public class Monster implements Moveable {
 
 	public void setDestroyed(boolean isDestroyed) {
 		this.isDestroyed = isDestroyed;
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }
