@@ -58,6 +58,13 @@ public class GameEngine {
 	}
 	
 	public void stopGame() {
+		monsterCreatorTask.setIsrunning(false);
+		collisionDetector.setRunning(false);
+		graphicEngineWorker.setRunning(false);
+		worldCoreTask.setRunning(false);
+		
+		executorService.shutdownNow();
+		
 		
 		
 	}
@@ -69,6 +76,11 @@ public class GameEngine {
 		}
 		
 		return INSTANCE; 
+	}
+
+	public void reset() {
+		
+		
 	}
 	
 	

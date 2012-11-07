@@ -17,7 +17,7 @@ public class WorldCoreTask implements Runnable {
 	private final static Logger LOG = LoggerFactory.getLogger(WorldCoreTask.class);
 
 	public WorldCoreTask() {
-		isRunning = true;
+		setRunning(true);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class WorldCoreTask implements Runnable {
 		final Thread currentThread = Thread.currentThread();
 		currentThread.setPriority(Thread.MIN_PRIORITY);
 
-		while (isRunning) {
+		while (isRunning()) {
 			LOG.debug("and world starts to move");
 			List<String> objectNames = worldCore.getMoveableObjectNames();
 
@@ -57,5 +57,13 @@ public class WorldCoreTask implements Runnable {
 
 		currentThread.setPriority(existingPriority);
 
+	}
+
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
 	}
 }

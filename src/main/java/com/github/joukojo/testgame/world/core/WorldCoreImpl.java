@@ -146,4 +146,11 @@ public class WorldCoreImpl implements WorldCore {
 		
 		return new ArrayList<String>(moveableObjects.keySet());
 	}
+	
+	@Override
+	public void resetWorld() {
+		moveableObjects.clear();
+		drawableObjects.clear();
+		
+	}
 }

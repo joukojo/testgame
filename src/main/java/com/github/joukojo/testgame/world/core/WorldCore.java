@@ -20,4 +20,6 @@ public interface WorldCore {
 
 	List<String> getMoveableObjectNames();
 
+	void resetWorld();
+
 }

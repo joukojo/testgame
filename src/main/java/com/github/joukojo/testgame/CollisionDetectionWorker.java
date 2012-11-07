@@ -19,8 +19,8 @@ public class CollisionDetectionWorker implements Runnable {
 	@Override
 	public void run() {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
-		isRunning = true;
-		while (isRunning) {
+		setRunning(true);
+		while (isRunning()) {
 			final List<Moveable> bullets = worldCore.getMoveableObjects("bullets");
 
 			if (bullets != null && !bullets.isEmpty()) {
@@ -111,6 +111,14 @@ public class CollisionDetectionWorker implements Runnable {
 				player.health -= 1; 
 			}
 		}
+	}
+
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
 	}
 
 

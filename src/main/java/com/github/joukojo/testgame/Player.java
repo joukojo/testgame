@@ -17,7 +17,7 @@ public class Player implements Moveable {
 	double directionY = 0;
 	public int level = 1;
 	public long score = 0;
-	public long health = 100;
+	public long health = 10;
 	public Point point = new Point(300, 300);	
 	int positionX = 0;
 
@@ -67,11 +67,15 @@ public class Player implements Moveable {
 	@Override
 	public void draw(Graphics graphics) {
 		
-		
-		
-		
 		graphics.setColor(Color.RED);
 		graphics.drawOval(positionX, positionY, 50, 50);
+		
+//		double direction = direction(directionX, directionY);
+//		
+//		BufferedImage image = ImageFactory.getPlayerNorthImage();
+//		
+		
+		
 	}
 	
 	
@@ -129,13 +133,13 @@ public class Player implements Moveable {
 
 	@Override
 	public boolean isDestroyed() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return !(health > 0);
 	}
 
 	@Override
 	public void setDestroyed(boolean b) {
-		// TODO Auto-generated method stub
+		
 
 	}
 

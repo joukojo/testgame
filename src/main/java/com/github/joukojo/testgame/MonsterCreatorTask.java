@@ -14,16 +14,14 @@ public class MonsterCreatorTask implements Runnable {
 
 	private final Logger LOG = LoggerFactory.getLogger(MonsterCreatorTask.class);
 
-	int level = 1;
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
+	private volatile boolean isrunning;
 
 	public void incrementLevel() {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Player player = (Player) worldCore.getMoveable("player");
-		player.level += 1;
+		if (player != null) {
+			player.level += 1;
+		}
 
 	}
 
@@ -31,10 +29,10 @@ public class MonsterCreatorTask implements Runnable {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Random random = new Random();
 		Player player = (Player) worldCore.getMoveable("player");
-		LOG.debug("current level: {}", level);
+		LOG.debug("current level: {}", player.level);
 		for (int i = 0; i < player.level * 2; i++) {
 			final Monster monster = new Monster();
-			monster.locationX = random.nextInt(Constants.SCREEN_WIDTH- 100);
+			monster.locationX = random.nextInt(Constants.SCREEN_WIDTH - 100);
 			monster.locationY = 0;
 
 			worldCore.addMoveable("monsters", monster);
@@ -52,8 +50,10 @@ public class MonsterCreatorTask implements Runnable {
 	}
 
 	public void run() {
+		setIsrunning(true);
 		createMonsters();
-		while (true) {
+		
+		while (isIsrunning()) {
 
 			clearMonsterOutsideOfViewPoint();
 		}
@@ -95,5 +95,13 @@ public class MonsterCreatorTask implements Runnable {
 			}
 		}
 
+	}
+
+	public boolean isIsrunning() {
+		return isrunning;
+	}
+
+	public void setIsrunning(boolean isrunning) {
+		this.isrunning = isrunning;
 	}
 }
