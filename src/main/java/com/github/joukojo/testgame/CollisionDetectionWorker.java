@@ -72,9 +72,9 @@ public class CollisionDetectionWorker implements Runnable {
 			
 			
 			
-			int deltaX = Math.abs(bullet.locationX
+			int deltaX = Math.abs(bullet.getLocationX()
 					- monsterRealX);
-			int deltaY = Math.abs(bullet.locationY
+			int deltaY = Math.abs(bullet.getLocationY()
 					- monsterRealY);
 			LOG.trace("deltaX {}", deltaX);
 			LOG.trace("deltaY {}", deltaY);

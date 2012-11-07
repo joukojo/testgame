@@ -32,10 +32,10 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 		WorldCore worldCore = WorldCoreFactory.getWorld();
 		Bullet bullet = new Bullet();
 		Player player = (Player) worldCore.getMoveable("player");
-		bullet.directionX = player.directionX + 0.2;
-		bullet.directionY = player.directionY + 0.2;
-		bullet.locationX = player.positionX;
-		bullet.locationY = player.positionY;
+		bullet.setDirectionX(player.directionX + 0.2);
+		bullet.setDirectionY(player.directionY + 0.2);
+		bullet.setLocationX(player.positionX);
+		bullet.setLocationY(player.positionY);
 
 		worldCore.addMoveable("bullets", bullet);
 	}

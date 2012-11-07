@@ -11,11 +11,11 @@ import com.github.joukojo.testgame.world.core.Moveable;
 
 public class Bullet implements Moveable {
 
-	int locationX;
-	int locationY;
+	private int locationX;
+	private int locationY;
 	
-	double directionX = 0.0;
-	double directionY = 0.0;
+	private double directionX = 0.0;
+	private double directionY = 0.0;
 	
 	private boolean isDestroyed = false;
 
