@@ -37,7 +37,7 @@ public class CollisionDetectionWorker implements Runnable {
 
 			for (Moveable moveable : monsters) {
 				Monster monster = (Monster) moveable; 
-				if( monster != null && !monster.isDestroyed() ) {
+				if( monster != null && !monster.isDestroyed() && player !=null) {
 					isPlayerAndMonsterInCollision(worldCore, player, monster);
 				}
 				
