@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,7 @@ public class WorldCoreImpl implements WorldCore {
 		if (drawables != null && !drawables.isEmpty()) {
 			return drawables.get(0);
 		} else {
+			LOG.debug("can't find drawable object '{}'", objectName);
 			return null;
 		}
 	}
@@ -41,7 +43,7 @@ public class WorldCoreImpl implements WorldCore {
 		if (drawableObjects.containsKey(objectName)) {
 			drawableObjects.get(objectName).add(drawable);
 		} else {
-			List<Drawable> objectList = new ArrayList<Drawable>();
+			final List<Drawable> objectList = new ArrayList<Drawable>();
 			objectList.add(drawable);
 			drawableObjects.put(objectName, objectList);
 		}
@@ -49,9 +51,9 @@ public class WorldCoreImpl implements WorldCore {
 
 	@Override
 	public List<Moveable> getAllMoveables() {
-		Collection<List<Moveable>> allValues = moveableObjects.values();
-		List<Moveable> allMoveableObjects = new ArrayList<Moveable>();
-		for (List<Moveable> list : allValues) {
+		final Collection<List<Moveable>> allValues = moveableObjects.values();
+		final List<Moveable> allMoveableObjects = new ArrayList<Moveable>();
+		for (final List<Moveable> list : allValues) {
 			allMoveableObjects.addAll(list);
 		}
 
@@ -60,13 +62,13 @@ public class WorldCoreImpl implements WorldCore {
 
 	@Override
 	public void cleanMoveables() {
-		Set<String> keys = moveableObjects.keySet();
+		final Set<String> keys = moveableObjects.keySet();
 
-		for (String key : keys) {
-			List<Moveable> entries = moveableObjects.get(key);
-			List<Moveable> stillActiveEntries = new ArrayList<Moveable>();
+		for (final String key : keys) {
+			final List<Moveable> entries = moveableObjects.get(key);
+			final List<Moveable> stillActiveEntries = new ArrayList<Moveable>();
 
-			for (Moveable moveable : entries) {
+			for (final Moveable moveable : entries) {
 				
 				if (!moveable.isDestroyed()) {
 					stillActiveEntries.add(moveable);
@@ -92,15 +94,15 @@ public class WorldCoreImpl implements WorldCore {
 	}
 
 	@Override
-	public void addMoveable(String objectName, Moveable moveable) {
+	public void addMoveable(final String objectName, final Moveable moveable) {
 
-		boolean containsKey = moveableObjects.containsKey(objectName);
+		final boolean containsKey = moveableObjects.containsKey(objectName);
 
 		if (containsKey) {
-			List<Moveable> list = moveableObjects.get(objectName);
+			final List<Moveable> list = moveableObjects.get(objectName);
 			list.add(moveable);
 		} else {
-			List<Moveable> list = new ArrayList<Moveable>();
+			final List<Moveable> list = new ArrayList<Moveable>();
 			list.add(moveable);
 			moveableObjects.put(objectName, list);
 		}
@@ -108,8 +110,8 @@ public class WorldCoreImpl implements WorldCore {
 	}
 
 	@Override
-	public Moveable getMoveable(String objectName) {
-		List<Moveable> objects = getMoveableObjects(objectName);
+	public Moveable getMoveable(final String objectName) {
+		final List<Moveable> objects = getMoveableObjects(objectName);
 		Moveable moveable = null;
 		if (objects != null && !objects.isEmpty()) {
 			moveable = objects.get(0);
@@ -118,10 +120,10 @@ public class WorldCoreImpl implements WorldCore {
 	}
 
 	@Override
-	public List<Moveable> getMoveableObjects(String objectName) {
-		List<Moveable> allMoveableObjects = new ArrayList<Moveable>();
+	public List<Moveable> getMoveableObjects(final String objectName) {
+		final List<Moveable> allMoveableObjects = new ArrayList<Moveable>();
 		
-		List<Moveable> moveableObjectList = moveableObjects.get(objectName);
+		final List<Moveable> moveableObjectList = moveableObjects.get(objectName);
 		
 		if( moveableObjectList != null ) {
 			allMoveableObjects.addAll(moveableObjectList);
@@ -132,10 +134,10 @@ public class WorldCoreImpl implements WorldCore {
 	}
 
 	@Override
-	public void removeMoveable(String objectName, Moveable moveable) {
-		List<Moveable> objects = getMoveableObjects(objectName);
+	public void removeMoveable(final String objectName, final Moveable moveable) {
+		final List<Moveable> objects = getMoveableObjects(objectName);
 
-		boolean isRemoved = objects.remove(moveable);
+		final boolean isRemoved = objects.remove(moveable);
 
 		LOG.debug("isRemoved: {}", isRemoved);
 		
@@ -149,8 +151,14 @@ public class WorldCoreImpl implements WorldCore {
 	
 	@Override
 	public void resetWorld() {
+		LOG.debug("resetting world"); 
 		moveableObjects.clear();
 		drawableObjects.clear();
 		
 	}
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
 }
