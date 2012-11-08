@@ -12,6 +12,7 @@ import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
 public class CollisionDetectionWorker implements Runnable {
 
+	
 	private final static Logger LOG = LoggerFactory
 			.getLogger(CollisionDetectionWorker.class);
 	private volatile boolean isRunning;
@@ -33,7 +34,7 @@ public class CollisionDetectionWorker implements Runnable {
 			// FIXME do the player collision detection here
 			
 			Player player  = (Player) worldCore.getMoveable("player");
-			List<Moveable> monsters = worldCore.getMoveableObjects("monsters");
+			List<Moveable> monsters = worldCore.getMoveableObjects(Constants.MONSTERS);
 
 			for (Moveable moveable : monsters) {
 				Monster monster = (Monster) moveable; 
@@ -51,7 +52,7 @@ public class CollisionDetectionWorker implements Runnable {
 
 	private void isBulletInCollisionWithMonster(WorldCore worldCore, Bullet bullet) {
 		List<Moveable> monsters = worldCore
-				.getMoveableObjects("monsters");
+				.getMoveableObjects(Constants.MONSTERS);
 		if (monsters != null && !monsters.isEmpty()) {
 			for (Moveable moveableMonster : monsters) {
 				Monster monster = (Monster) moveableMonster;
@@ -83,7 +84,7 @@ public class CollisionDetectionWorker implements Runnable {
 				monster.setDestroyed(true);
 				bullet.setDestroyed(true);
 				
-				Player player  = (Player) worldCore.getMoveable("player");
+				Player player  = (Player) worldCore.getMoveable(Constants.PLAYER);
 				player.setScore(player.getScore() + 100); 
 			}
 		}

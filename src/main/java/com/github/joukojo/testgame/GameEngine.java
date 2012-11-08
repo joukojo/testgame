@@ -33,7 +33,7 @@ public class GameEngine {
 		player.setPositionX(500); 
 		player.setPositionY(100); 
 
-		worldCore.addMoveable("player", player);
+		worldCore.addMoveable(Constants.PLAYER, player);
 		monsterCreatorTask = new MonsterCreatorTask();
 
 		collisionDetector = new CollisionDetectionWorker(); 
