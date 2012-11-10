@@ -63,8 +63,8 @@ public class CollisionDetectionWorker implements Runnable {
 		if (!monster.isDestroyed() && !bullet.isDestroyed()) {
 
 			// correct the monster location
-			final int monsterRealX = monster.locationX + 34;
-			final int monsterRealY = monster.locationY + 13;
+			final int monsterRealX = monster.getLocationX() + 34;
+			final int monsterRealY = monster.getLocationY() + 13;
 
 			final int deltaX = Math.abs(bullet.getLocationX() - monsterRealX);
 			final int deltaY = Math.abs(bullet.getLocationY() - monsterRealY);
@@ -85,8 +85,8 @@ public class CollisionDetectionWorker implements Runnable {
 		if (!monster.isDestroyed()) {
 
 			// correct the monster location
-			final int monsterRealX = monster.locationX + 34;
-			final int monsterRealY = monster.locationY + 13;
+			final int monsterRealX = monster.getLocationX() + 34;
+			final int monsterRealY = monster.getLocationY() + 13;
 
 			final int deltaX = Math.abs(player.getPositionX() - monsterRealX);
 			final int deltaY = Math.abs(player.getPositionY() - monsterRealY);
