@@ -33,9 +33,9 @@ public class GraphicEngine extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Canvas canvas;
-	private BufferedImage bi;
-	private BufferStrategy buffer;
+	private final Canvas canvas;
+	private final BufferedImage bi;
+	private final BufferStrategy buffer;
 
 	public GraphicEngine() {
 		super();
@@ -45,7 +45,7 @@ public class GraphicEngine extends JFrame {
 		canvas = new Canvas();
 		canvas.setIgnoreRepaint(true);
 		canvas.setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-		PlayerMoveListener mouseListener = new PlayerMoveListener();
+		final PlayerMoveListener mouseListener = new PlayerMoveListener();
 		canvas.addMouseMotionListener(mouseListener);
 		canvas.addMouseListener(mouseListener);
 
@@ -59,9 +59,9 @@ public class GraphicEngine extends JFrame {
 		buffer = canvas.getBufferStrategy();
 
 		// Get graphics configuration...
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice gd = ge.getDefaultScreenDevice();
-		GraphicsConfiguration gc = gd.getDefaultConfiguration();
+		final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		final GraphicsDevice gd = ge.getDefaultScreenDevice();
+		final GraphicsConfiguration gc = gd.getDefaultConfiguration();
 
 		bi = gc.createCompatibleImage(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 
@@ -75,7 +75,7 @@ public class GraphicEngine extends JFrame {
 		// Objects needed for rendering...
 		Graphics graphics = null;
 		Graphics2D g2d = null;
-		Color background = Color.BLACK;
+		final Color background = Color.BLACK;
 		try {
 
 			LOG.debug("clearing buffer");
@@ -93,45 +93,48 @@ public class GraphicEngine extends JFrame {
 			LOG.debug("blit image and flip");
 			graphics = buffer.getDrawGraphics();
 			graphics.drawImage(bi, 0, 0, null);
-			if (!buffer.contentsLost())
+			if (!buffer.contentsLost()) {
 				buffer.show();
+			}
 
 		} finally {
 			// release resources
-			if (graphics != null)
+			if (graphics != null) {
 				graphics.dispose();
-			if (g2d != null)
+			}
+			if (g2d != null) {
 				g2d.dispose();
+			}
 		}
 	}
 
-	private void drawStatusTexts(Graphics2D g2d) {
+	private void drawStatusTexts(final Graphics2D g2d) {
 		g2d.setFont(new Font("Courier New", Font.PLAIN, 12));
 		g2d.setColor(Color.GREEN);
-		WorldCore worldCore = WorldCoreFactory.getWorld();
-		Player player = (Player) worldCore.getMoveable("player");
+		final WorldCore worldCore = WorldCoreFactory.getWorld();
+		final Player player = (Player) worldCore.getMoveable("player");
 		if (player != null) {
-			int level = player.getLevel();
+			final int level = player.getLevel();
 			g2d.drawString("Level:" + level, 20, 20);
 			g2d.drawString("Score:" + player.getScore(), 20, 40);
 			g2d.drawString("Health:" + player.getHealth(), 20, 60);
 		}
 	}
 
-	public void drawObjects(Graphics g) {
-		WorldCore worldCore = WorldCoreFactory.getWorld();
+	public void drawObjects(final Graphics g) {
+		final WorldCore worldCore = WorldCoreFactory.getWorld();
 
-		List<Drawable> allDrawables = worldCore.getAllDrawables();
+		final List<Drawable> allDrawables = worldCore.getAllDrawables();
 
 		drawDrawableObjects(g, allDrawables);
 
-		List<Moveable> allMoveables = worldCore.getAllMoveables();
+		final List<Moveable> allMoveables = worldCore.getAllMoveables();
 		drawMoveableObjects(g, allMoveables);
 
 	}
 
-	protected void drawDrawableObjects(Graphics g, List<Drawable> allDrawables) {
-		for (Drawable drawable : allDrawables) {
+	protected void drawDrawableObjects(final Graphics g, final List<Drawable> allDrawables) {
+		for (final Drawable drawable : allDrawables) {
 			LOG.trace("drawing object: {}", drawable);
 			drawable.draw(g);
 		}
@@ -139,8 +142,8 @@ public class GraphicEngine extends JFrame {
 		LOG.trace("all drawable objects drawn");
 	}
 
-	protected void drawMoveableObjects(Graphics g, List<Moveable> allMoveables) {
-		for (Drawable drawable : allMoveables) {
+	protected void drawMoveableObjects(final Graphics g, final List<Moveable> allMoveables) {
+		for (final Drawable drawable : allMoveables) {
 			drawable.draw(g);
 		}
 		LOG.trace("all moveable objects drawn");
