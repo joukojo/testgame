@@ -18,7 +18,7 @@ public class Player implements Moveable {
 	private double directionY = 0;
 	private int level = 1;
 	private long score = 0;
-	private long health = 10;
+	private long health = 100;
 	private Point point = new Point(300, 300);	
 	private int positionX = 0;
 
