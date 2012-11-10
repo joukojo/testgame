@@ -7,6 +7,14 @@
 	<version>0.2-SNAPSHOT</version>
 	<name>testgame</name>
 	<url>http://maven.apache.org</url>
+
+	<properties>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+	</properties>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
