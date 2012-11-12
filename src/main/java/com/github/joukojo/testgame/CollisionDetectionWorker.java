@@ -19,31 +19,37 @@ public class CollisionDetectionWorker implements Runnable {
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 		setRunning(true);
 		while (isRunning()) {
-			final List<Moveable> bullets = worldCore.getMoveableObjects(Constants.BULLETS);
+			handleBulletCollisions(worldCore);
 
-			if (bullets != null && !bullets.isEmpty()) {
-				for (final Moveable moveableBullet : bullets) {
-					final Bullet bullet = (Bullet) moveableBullet;
-					isBulletInCollisionWithMonster(worldCore, bullet);
-				}
-			}
-
-			// FIXME do the player collision detection here
-
-			final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
-			final List<Moveable> monsters = worldCore.getMoveableObjects(Constants.MONSTERS);
-
-			for (final Moveable moveable : monsters) {
-				final Monster monster = (Monster) moveable;
-				if (monster != null && !monster.isDestroyed() && player != null) {
-					isPlayerAndMonsterInCollision(worldCore, player, monster);
-				}
-
-			}
+			handlePlayerCollisions(worldCore);
 
 			Thread.yield();
 		}
 
+	}
+
+	private void handleBulletCollisions(final WorldCore worldCore) {
+		final List<Moveable> bullets = worldCore.getMoveableObjects(Constants.BULLETS);
+
+		if (bullets != null && !bullets.isEmpty()) {
+			for (final Moveable moveableBullet : bullets) {
+				final Bullet bullet = (Bullet) moveableBullet;
+				isBulletInCollisionWithMonster(worldCore, bullet);
+			}
+		}
+	}
+
+	private void handlePlayerCollisions(final WorldCore worldCore) {
+		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
+		final List<Moveable> monsters = worldCore.getMoveableObjects(Constants.MONSTERS);
+
+		for (final Moveable moveable : monsters) {
+			final Monster monster = (Monster) moveable;
+			if (monster != null && !monster.isDestroyed() && player != null) {
+				isPlayerAndMonsterInCollision(worldCore, player, monster);
+			}
+
+		}
 	}
 
 	private void isBulletInCollisionWithMonster(final WorldCore worldCore, final Bullet bullet) {
@@ -64,13 +70,13 @@ public class CollisionDetectionWorker implements Runnable {
 
 			// correct the monster location
 			final int monsterRealX = monster.getLocationX() + 34;
-			final int monsterRealY = monster.getLocationY() + 13;
+			final int monsterRealY = monster.getLocationY() + 34;
 
 			final int deltaX = Math.abs(bullet.getLocationX() - monsterRealX);
 			final int deltaY = Math.abs(bullet.getLocationY() - monsterRealY);
 			LOG.trace("deltaX {}", deltaX);
 			LOG.trace("deltaY {}", deltaY);
-			if (deltaX < 20 && deltaY < 20) {
+			if (deltaX < 30 && deltaY < 30) {
 				LOG.debug("we have a hit");
 				monster.setDestroyed(true);
 				bullet.setDestroyed(true);

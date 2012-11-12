@@ -31,8 +31,9 @@ public class MonsterCreatorTask implements Runnable {
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 
 		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
-		LOG.debug("current level: {}", player.getLevel());
-		for (int i = 0; i < player.getLevel() * 2; i++) {
+		final int level = player.getLevel();
+		LOG.debug("current level: {}", level);
+		for (int i = 0; i < level * 2; i++) {
 			final Monster monster = new Monster();
 			monster.setLocationX(random.nextInt(Constants.SCREEN_WIDTH - 100));
 			monster.setLocationY(0);
@@ -40,7 +41,7 @@ public class MonsterCreatorTask implements Runnable {
 			worldCore.addMoveable(Constants.MONSTERS, monster);
 			try {
 
-				final int delta = player.getLevel() * 150;
+				final int delta = level * 150;
 				if (delta < 2000) {
 					Thread.sleep(2000 - delta);
 				}
@@ -77,7 +78,6 @@ public class MonsterCreatorTask implements Runnable {
 					}
 
 					moveable.setDestroyed(true);
-
 				}
 			}
 

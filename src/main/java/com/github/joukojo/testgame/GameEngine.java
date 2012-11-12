@@ -20,68 +20,61 @@ public class GameEngine {
 	private CollisionDetectionWorker collisionDetector;
 	private GraphicEngineWorker graphicEngineWorker;
 	private WorldCoreTask worldCoreTask;
-	
+
 	private ExecutorService executorService;
-	private static GameEngine INSTANCE; 
-	
-	
+	private static GameEngine INSTANCE;
+
 	public void init() {
 		engine = new GraphicEngine();
 
-		WorldCore worldCore = WorldCoreFactory.getWorld();		
-		Player player = new Player();
-		player.setPositionX(500); 
-		player.setPositionY(100); 
+		final WorldCore worldCore = WorldCoreFactory.getWorld();
+		final Player player = new Player();
+		player.setPositionX(500);
+		player.setPositionY(100);
 
 		worldCore.addMoveable(Constants.PLAYER, player);
 		monsterCreatorTask = new MonsterCreatorTask();
 
-		collisionDetector = new CollisionDetectionWorker(); 
+		collisionDetector = new CollisionDetectionWorker();
 
 		graphicEngineWorker = new GraphicEngineWorker(engine);
 
 		worldCoreTask = new WorldCoreTask();
-		
+
 		executorService = Executors.newCachedThreadPool();
-		
+
 	}
-	
+
 	public void startGame() {
 		LOG.debug("starting up the game engine");
 		executorService.execute(monsterCreatorTask);
 		executorService.execute(collisionDetector);
 		executorService.execute(graphicEngineWorker);
 		executorService.execute(worldCoreTask);
-		
-		
-		
+
 	}
-	
+
 	public void stopGame() {
 		monsterCreatorTask.setIsrunning(false);
 		collisionDetector.setRunning(false);
 		graphicEngineWorker.setRunning(false);
 		worldCoreTask.setRunning(false);
-		
+
 		executorService.shutdownNow();
-		
-		
-		
+
 	}
 
 	public static synchronized GameEngine getInstance() {
-		
-		if( INSTANCE == null ) {
+
+		if (INSTANCE == null) {
 			INSTANCE = new GameEngine();
 		}
-		
-		return INSTANCE; 
+
+		return INSTANCE;
 	}
 
 	public void reset() {
-		
-		
+
 	}
-	
-	
+
 }
