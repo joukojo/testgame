@@ -1,13 +1,14 @@
 package com.github.joukojo.testgame;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.joukojo.testgame.images.ImageFactory;
 import com.github.joukojo.testgame.world.core.Moveable;
 
 public class Player implements Moveable {
@@ -66,30 +67,52 @@ public class Player implements Moveable {
 	@Override
 	public void draw(final Graphics graphics) {
 
-		graphics.setColor(Color.RED);
-		graphics.drawOval(positionX, positionY, 50, 50);
+		final double direction = direction(directionX, directionY);
 
-		// double direction = direction(directionX, directionY);
+		final int value = Double.valueOf(direction).intValue();
+		LOG.debug("player direction: {} degress", value);
 		//
 		// BufferedImage image = ImageFactory.getPlayerNorthImage();
 		//
+		BufferedImage image = null;
+		if (value < 0) {
+			image = ImageFactory.getImageForDegree(360 - value);
+		} else {
+			image = ImageFactory.getImageForDegree(value);
+		}
+		graphics.drawImage(image, positionX, positionY, null);
 
 	}
 
-	double direction(final double x, final double y) {
-		if (x > 0) {
-			return Math.atan(y / x);
+	protected double direction(final double x, final double y) {
+		
+		if( x == 0 && y < 0 ) {
+			return 0; // NORTH
 		}
-		if (x < 0) {
-			return Math.atan(y / x) + Math.PI;
+		else if( x > 0 && y == 0 ) {
+			return 90; // WEST
 		}
-		if (y > 0) {
-			return Math.PI / 2;
+		else if( x == 0 && y > 0 ) {
+			return 180; 
 		}
-		if (y < 0) {
-			return -Math.PI / 2;
+		else if( x < 0 && y == 0 ) {
+			return 270; 
 		}
-		return 0; // no direction
+		
+		if( x > 0 && y < 0 ) {
+			return 90 - Math.toDegrees(Math.tan(x/y)); 
+		}
+		else if ( x > 0 && y > 0 ) {
+			return 180 - Math.toDegrees(Math.tan(y/x));
+		}
+		else if( x < 0 && y > 0 ) {
+			return 270 - Math.toDegrees(Math.tan(y/x));
+		}
+		else if ( x < 0 && y < 0 ) {
+			return 360 - Math.toDegrees(Math.tan(y/x));
+		}
+		
+		return 0; 
 	}
 
 	@Override
@@ -129,8 +152,7 @@ public class Player implements Moveable {
 
 	@Override
 	public boolean isOutside(final int x, final int y) {
-		return (positionX > x || positionX < 0)
-				|| (positionY > y || positionY < 0);
+		return (positionX > x || positionX < 0) || (positionY > y || positionY < 0);
 	}
 
 	@Override
