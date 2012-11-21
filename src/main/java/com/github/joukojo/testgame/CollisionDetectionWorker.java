@@ -57,7 +57,6 @@ public class CollisionDetectionWorker implements Runnable {
 		if (monsters != null && !monsters.isEmpty()) {
 			for (final Moveable moveableMonster : monsters) {
 				final Monster monster = (Monster) moveableMonster;
-				// FIXME do the location calculation better
 				if (monster != null && bullet != null) {
 					isBulletAndMonsterInCollision(worldCore, bullet, monster);
 				}
@@ -74,8 +73,10 @@ public class CollisionDetectionWorker implements Runnable {
 
 			final int deltaX = Math.abs(bullet.getLocationX() - monsterRealX);
 			final int deltaY = Math.abs(bullet.getLocationY() - monsterRealY);
-			LOG.trace("deltaX {}", deltaX);
-			LOG.trace("deltaY {}", deltaY);
+			if (LOG.isTraceEnabled()) {
+				LOG.trace("deltaX {}", deltaX);
+				LOG.trace("deltaY {}", deltaY);
+			}
 			if (deltaX < 30 && deltaY < 30) {
 				LOG.debug("we have a hit");
 				monster.setDestroyed(true);
