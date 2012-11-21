@@ -34,14 +34,15 @@ public class WorldCoreTask implements Runnable {
 			for (final String objectName : objectNames) {
 
 				final List<Moveable> moveableObjects = worldCore.getMoveableObjects(objectName);
-				final Object params[] = { objectName, moveableObjects.size() };
-				LOG.debug("the size of the moveable objects:{}:{}", params);
-				for (final Moveable moveable : moveableObjects) {
-					LOG.trace("moving object: {}", moveable);
-					moveable.move();
+				if (LOG.isDebugEnabled()) {
+					final Object params[] = { objectName, moveableObjects.size() };
+					LOG.debug("the size of the moveable objects:{}:{}", params);
 				}
+				moveObjects(moveableObjects);
 
 			}
+
+			// clean moveables at end
 			worldCore.cleanMoveables();
 
 			LOG.debug("and world has moved");
@@ -57,6 +58,13 @@ public class WorldCoreTask implements Runnable {
 
 		currentThread.setPriority(existingPriority);
 
+	}
+
+	private void moveObjects(final List<Moveable> moveableObjects) {
+		for (final Moveable moveable : moveableObjects) {
+			LOG.trace("moving object: {}", moveable);
+			moveable.move();
+		}
 	}
 
 	public boolean isRunning() {

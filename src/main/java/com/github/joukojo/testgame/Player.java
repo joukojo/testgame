@@ -88,7 +88,7 @@ public class Player implements Moveable {
 	}
 
 	protected double direction(final double x, final double y) {
-		
+
 		if (x == 0 && y < 0) {
 			return 0; // NORTH
 		} else if (x > 0 && y == 0) {
@@ -101,7 +101,7 @@ public class Player implements Moveable {
 
 		if (x > 0 && y < 0) {
 			// NE
-			return 90 - Math.toDegrees(Math.atan(x / Math.abs(y)));
+			return 90 - Math.toDegrees(Math.atan(y / Math.abs(y)));
 		} else if (x > 0 && y > 0) {
 			// SE
 			return 180 - Math.toDegrees(Math.atan(y / x));
@@ -128,8 +128,10 @@ public class Player implements Moveable {
 		final double newPositionX = positionX + directionX;
 		final double newPositionY = positionY + directionY;
 
-		LOG.debug("newPositionX {}", newPositionX);
-		LOG.debug("newPositionY {}", newPositionY);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("newPositionX {}", newPositionX);
+			LOG.debug("newPositionY {}", newPositionY);
+		}
 
 		if (newPositionX <= 0) {
 			positionX = 0;

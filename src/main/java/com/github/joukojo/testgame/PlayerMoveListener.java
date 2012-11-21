@@ -12,7 +12,8 @@ import com.github.joukojo.testgame.world.core.WorldCore;
 import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
 public class PlayerMoveListener implements MouseMotionListener, MouseListener {
-	private final static Logger LOG = LoggerFactory.getLogger(PlayerMoveListener.class);
+	private final static Logger LOG = LoggerFactory
+			.getLogger(PlayerMoveListener.class);
 
 	@Override
 	public void mouseClicked(final MouseEvent e) {
@@ -26,17 +27,33 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 	@Override
 	public void mousePressed(final MouseEvent e) {
 		final Point locationOnScreen = e.getLocationOnScreen();
-		LOG.debug("mouse pressed");
-		LOG.debug("location x: {}", locationOnScreen.x);
-		LOG.debug("location y: {}", locationOnScreen.y);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("mouse pressed");
+			LOG.debug("location x: {}", locationOnScreen.x);
+			LOG.debug("location y: {}", locationOnScreen.y);
+		}
 
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 
 		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
 		if (player != null) {
 			final Bullet bullet = new Bullet();
-			bullet.setDirectionX(player.getDirectionX() + 0.2);
-			bullet.setDirectionY(player.getDirectionY() + 0.2);
+
+			double playerDirectionY = player.getDirectionY();
+			double playerDirectionX = player.getDirectionX();
+
+			double playerDirectionAngle = player.direction(playerDirectionX,
+					playerDirectionY);
+
+			/* bulletspeed is 50 (aka hypotenous)
+			 *  
+			*/
+			double bulletY = Math.sin(playerDirectionAngle) * 5;
+			double bulletX = Math.cos(playerDirectionAngle) * 5; 
+			
+			bullet.setDirectionX(bulletX);
+
+			bullet.setDirectionY(bulletY);
 			bullet.setLocationX(player.getPositionX());
 			bullet.setLocationY(player.getPositionY());
 			worldCore.addMoveable(Constants.BULLETS, bullet);

@@ -71,23 +71,15 @@ public class GraphicEngine extends JFrame {
 	}
 
 	public void drawObjects() {
-		LOG.debug("drawing objects");
+		LOG.trace("drawing objects");
 		// Objects needed for rendering...
 		Graphics graphics = null;
-		Graphics2D g2d = null;
-		final Color background = Color.BLACK;
+
 		try {
 
 			LOG.debug("clearing buffer");
 			// clear back buffer...
-			g2d = bi.createGraphics();
-			g2d.setColor(background);
-			g2d.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-
-			LOG.debug("drawing objects");
-			drawObjects(g2d);
-
-			drawStatusTexts(g2d);
+			drawBufferImage();
 
 			// Blit image and flip...
 			LOG.debug("blit image and flip");
@@ -102,10 +94,33 @@ public class GraphicEngine extends JFrame {
 			if (graphics != null) {
 				graphics.dispose();
 			}
+
+		}
+	}
+
+	private void drawBufferImage() {
+		Graphics2D g2d = null;
+		try {
+			g2d = bi.createGraphics();
+			drawBackground(g2d);
+
+			LOG.trace("drawing objects");
+			drawObjects(g2d);
+			LOG.trace("drawing status texts");
+			drawStatusTexts(g2d);
+
+			LOG.trace("buffer image is complete");
+		} finally {
 			if (g2d != null) {
 				g2d.dispose();
 			}
 		}
+	}
+
+	private void drawBackground(final Graphics2D g2d) {
+		final Color background = Color.BLACK;
+		g2d.setColor(background);
+		g2d.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 	}
 
 	private void drawStatusTexts(final Graphics2D g2d) {
@@ -123,13 +138,14 @@ public class GraphicEngine extends JFrame {
 
 	public void drawObjects(final Graphics g) {
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
-
+		LOG.trace("Starting to draw drawables");
 		final List<Drawable> allDrawables = worldCore.getAllDrawables();
 
 		drawDrawableObjects(g, allDrawables);
-
+		LOG.trace("Starting to draw moveables");
 		final List<Moveable> allMoveables = worldCore.getAllMoveables();
 		drawMoveableObjects(g, allMoveables);
+		LOG.trace("all objects are drawn");
 
 	}
 
