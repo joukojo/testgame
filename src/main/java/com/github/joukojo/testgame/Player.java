@@ -68,7 +68,10 @@ public class Player implements Moveable {
 	public void draw(final Graphics graphics) {
 
 		final double direction = direction(directionX, directionY);
-
+		if (LOG.isDebugEnabled()) {
+			Object params[] = { directionX, directionY, direction };
+			LOG.debug("direction (x/y) : ({}/{} -> {})", params);
+		}
 		final int value = Double.valueOf(direction).intValue();
 		LOG.debug("player direction: {} degress", value);
 		//
@@ -86,33 +89,31 @@ public class Player implements Moveable {
 
 	protected double direction(final double x, final double y) {
 		
-		if( x == 0 && y < 0 ) {
+		if (x == 0 && y < 0) {
 			return 0; // NORTH
+		} else if (x > 0 && y == 0) {
+			return 90; // EAST
+		} else if (x == 0 && y > 0) {
+			return 180; // SOUTH
+		} else if (x < 0 && y == 0) {
+			return 270; // WEST
 		}
-		else if( x > 0 && y == 0 ) {
-			return 90; // WEST
+
+		if (x > 0 && y < 0) {
+			// NE
+			return 90 - Math.toDegrees(Math.atan(x / Math.abs(y)));
+		} else if (x > 0 && y > 0) {
+			// SE
+			return 180 - Math.toDegrees(Math.atan(y / x));
+		} else if (x < 0 && y > 0) {
+			// SW
+			return 270 - Math.toDegrees(Math.atan(y / Math.abs(x)));
+		} else if (x < 0 && y < 0) {
+			// NW
+			return 360 - Math.toDegrees(Math.atan(y / x));
 		}
-		else if( x == 0 && y > 0 ) {
-			return 180; 
-		}
-		else if( x < 0 && y == 0 ) {
-			return 270; 
-		}
-		
-		if( x > 0 && y < 0 ) {
-			return 90 - Math.toDegrees(Math.tan(x/y)); 
-		}
-		else if ( x > 0 && y > 0 ) {
-			return 180 - Math.toDegrees(Math.tan(y/x));
-		}
-		else if( x < 0 && y > 0 ) {
-			return 270 - Math.toDegrees(Math.tan(y/x));
-		}
-		else if ( x < 0 && y < 0 ) {
-			return 360 - Math.toDegrees(Math.tan(y/x));
-		}
-		
-		return 0; 
+
+		return 0;
 	}
 
 	@Override
@@ -152,7 +153,8 @@ public class Player implements Moveable {
 
 	@Override
 	public boolean isOutside(final int x, final int y) {
-		return (positionX > x || positionX < 0) || (positionY > y || positionY < 0);
+		return (positionX > x || positionX < 0)
+				|| (positionY > y || positionY < 0);
 	}
 
 	@Override
