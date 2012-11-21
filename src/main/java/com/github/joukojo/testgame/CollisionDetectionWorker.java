@@ -11,7 +11,8 @@ import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
 public class CollisionDetectionWorker implements Runnable {
 
-	private final static Logger LOG = LoggerFactory.getLogger(CollisionDetectionWorker.class);
+	private final static Logger LOG = LoggerFactory
+			.getLogger(CollisionDetectionWorker.class);
 	private volatile boolean isRunning;
 
 	@Override
@@ -29,31 +30,42 @@ public class CollisionDetectionWorker implements Runnable {
 	}
 
 	private void handleBulletCollisions(final WorldCore worldCore) {
-		final List<Moveable> bullets = worldCore.getMoveableObjects(Constants.BULLETS);
+		final List<Moveable> bullets = worldCore
+				.getMoveableObjects(Constants.BULLETS);
 
 		if (bullets != null && !bullets.isEmpty()) {
 			for (final Moveable moveableBullet : bullets) {
 				final Bullet bullet = (Bullet) moveableBullet;
-				isBulletInCollisionWithMonster(worldCore, bullet);
+				if( bullet != null ) {
+					isBulletInCollisionWithMonster(worldCore, bullet);
+				}
 			}
 		}
 	}
 
-	private void handlePlayerCollisions(final WorldCore worldCore) {
+	protected void handlePlayerCollisions(final WorldCore worldCore) {
 		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
-		final List<Moveable> monsters = worldCore.getMoveableObjects(Constants.MONSTERS);
+		if (player != null) {
+			final List<Moveable> monsters = worldCore
+					.getMoveableObjects(Constants.MONSTERS);
 
-		for (final Moveable moveable : monsters) {
-			final Monster monster = (Monster) moveable;
-			if (monster != null && !monster.isDestroyed() && player != null) {
-				isPlayerAndMonsterInCollision(worldCore, player, monster);
+			if (monsters != null) {
+				for (final Moveable moveable : monsters) {
+					final Monster monster = (Monster) moveable;
+					if (monster != null && !monster.isDestroyed() ) {
+						isPlayerAndMonsterInCollision(worldCore, player,
+								monster);
+					}
+
+				}
 			}
-
 		}
 	}
 
-	private void isBulletInCollisionWithMonster(final WorldCore worldCore, final Bullet bullet) {
-		final List<Moveable> monsters = worldCore.getMoveableObjects(Constants.MONSTERS);
+	private void isBulletInCollisionWithMonster(final WorldCore worldCore,
+			final Bullet bullet) {
+		final List<Moveable> monsters = worldCore
+				.getMoveableObjects(Constants.MONSTERS);
 		if (monsters != null && !monsters.isEmpty()) {
 			for (final Moveable moveableMonster : monsters) {
 				final Monster monster = (Monster) moveableMonster;
@@ -64,7 +76,8 @@ public class CollisionDetectionWorker implements Runnable {
 		}
 	}
 
-	private void isBulletAndMonsterInCollision(final WorldCore worldCore, final Bullet bullet, final Monster monster) {
+	private void isBulletAndMonsterInCollision(final WorldCore worldCore,
+			final Bullet bullet, final Monster monster) {
 		if (!monster.isDestroyed() && !bullet.isDestroyed()) {
 
 			// correct the monster location
@@ -82,13 +95,15 @@ public class CollisionDetectionWorker implements Runnable {
 				monster.setDestroyed(true);
 				bullet.setDestroyed(true);
 
-				final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
+				final Player player = (Player) worldCore
+						.getMoveable(Constants.PLAYER);
 				player.setScore(player.getScore() + 100);
 			}
 		}
 	}
 
-	private void isPlayerAndMonsterInCollision(final WorldCore worldCore, final Player player, final Monster monster) {
+	private void isPlayerAndMonsterInCollision(final WorldCore worldCore,
+			final Player player, final Monster monster) {
 		if (!monster.isDestroyed()) {
 
 			// correct the monster location
@@ -97,10 +112,13 @@ public class CollisionDetectionWorker implements Runnable {
 
 			final int deltaX = Math.abs(player.getPositionX() - monsterRealX);
 			final int deltaY = Math.abs(player.getPositionY() - monsterRealY);
-			LOG.trace("deltaX {}", deltaX);
-			LOG.trace("deltaY {}", deltaY);
+
+			if (LOG.isTraceEnabled()) {
+				final Object params[] = { deltaX, deltaY };
+				LOG.trace("delta values(x/y) : ({}/{})", params);
+			}
 			if (deltaX < 20 && deltaY < 20) {
-				LOG.debug("we have a hit with monster");
+				LOG.trace("we have a hit with monster");
 				monster.setDestroyed(true);
 
 				player.setHealth(player.getHealth() - 1);
