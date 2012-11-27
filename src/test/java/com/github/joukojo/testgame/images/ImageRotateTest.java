@@ -16,7 +16,7 @@ import org.junit.Test;
 
 public class ImageRotateTest {
 
-	@Test
+	
 	public void testRotateImages() throws IOException {
 		final BufferedImage playerNorthImage = ImageFactory.getPlayerNorthImage();
 
