@@ -101,16 +101,20 @@ public class Player implements Moveable {
 
 		if (x > 0 && y < 0) {
 			// NE
-			return 90 - Math.toDegrees(Math.atan(y / Math.abs(y)));
+			LOG.debug("NE");
+			return 90 - Math.toDegrees(Math.atan(Math.abs(y) / x));
 		} else if (x > 0 && y > 0) {
+			LOG.debug("SE");
 			// SE
 			return 180 - Math.toDegrees(Math.atan(y / x));
 		} else if (x < 0 && y > 0) {
+			LOG.debug("SW");
 			// SW
 			return 270 - Math.toDegrees(Math.atan(y / Math.abs(x)));
 		} else if (x < 0 && y < 0) {
+			LOG.debug("NW");
 			// NW
-			return 360 - Math.toDegrees(Math.atan(y / x));
+			return 360 - Math.toDegrees(Math.atan(Math.abs(y) / Math.abs(x)));
 		}
 
 		return 0;

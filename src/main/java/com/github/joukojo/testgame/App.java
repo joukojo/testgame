@@ -18,7 +18,8 @@ public class App {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		GameEngine gameEngine = GameEngine.getInstance();
+		final GameEngine gameEngine = GameEngine.getInstance();
+		final WorldCore worldCore = WorldCoreFactory.getWorld();
 		while (true) {
 			gameEngine.init();
 			LOG.debug("game engine initialized");
@@ -27,13 +28,13 @@ public class App {
 			LOG.debug("starting the game engine");
 			gameEngine.startGame();
 
-			WorldCore worldCore = WorldCoreFactory.getWorld();
-			Player player = (Player) worldCore.getMoveable("player");
+			
+			final Player player = (Player) worldCore.getMoveable("player");
 
 			while (!player.isDestroyed()) {
 				Thread.sleep(200L);
 				Thread.yield();
-			}
+			} 
 
 			gameEngine.stopGame();
 			JOptionPane.showMessageDialog(null, "Game Over!\nScore: " + player.getScore());
