@@ -38,22 +38,8 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
 		if (player != null) {
 			final Bullet bullet = new Bullet();
-
-			double playerDirectionY = player.getDirectionY();
-			double playerDirectionX = player.getDirectionX();
-
-			double playerDirectionAngle = player.direction(playerDirectionX,
-					playerDirectionY);
-
-			/* bulletspeed is 50 (aka hypotenous)
-			 *  
-			*/
-			LOG.debug("bullet direction {}", playerDirectionAngle);
-			double bulletY = Math.sin(playerDirectionAngle) * 5;
-			double bulletX = Math.cos(playerDirectionAngle) * 5; 
-			
-			bullet.setDirectionX(bulletX);
-			bullet.setDirectionY(bulletY);
+			// bullet.setDirectionX(bulletX);
+			bullet.setDirectionY(-5);
 
 			bullet.setLocationX(player.getPositionX());
 			bullet.setLocationY(player.getPositionY());

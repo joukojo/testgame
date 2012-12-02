@@ -83,6 +83,8 @@ public class Player implements Moveable {
 		} else {
 			image = ImageFactory.getImageForDegree(value);
 		}
+		image = ImageFactory.getImageForDegree(1);
+		
 		graphics.drawImage(image, positionX, positionY, null);
 
 	}
