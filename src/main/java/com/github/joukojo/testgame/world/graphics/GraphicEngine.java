@@ -19,7 +19,6 @@ import javax.swing.WindowConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.joukojo.testgame.Constants;
 import com.github.joukojo.testgame.DisplayConfiguration;
 import com.github.joukojo.testgame.Player;
 import com.github.joukojo.testgame.PlayerMoveListener;
@@ -39,7 +38,6 @@ public class GraphicEngine extends JFrame {
 	private final Canvas canvas;
 	private final BufferedImage bi;
 	private final BufferStrategy buffer;
-	private DisplayMode originalDisplayMode;
 
 	public GraphicEngine(GraphicsConfiguration graphicsConfiguration) {
 		
