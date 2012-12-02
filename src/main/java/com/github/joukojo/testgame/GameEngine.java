@@ -1,5 +1,8 @@
 package com.github.joukojo.testgame;
 
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,7 +28,15 @@ public class GameEngine {
 	private static GameEngine INSTANCE;
 
 	public void init() {
-		engine = new GraphicEngine();
+		
+		GraphicsEnvironment env = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+		GraphicsDevice[] devices = env.getScreenDevices();
+		
+		
+		
+		GraphicsConfiguration graphicsEngine = devices[0].getDefaultConfiguration();;
+		engine = new GraphicEngine(graphicsEngine);
 
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 		final Player player = new Player();

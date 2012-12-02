@@ -141,16 +141,16 @@ public class Player implements Moveable {
 
 		if (newPositionX <= 0) {
 			positionX = 0;
-		} else if (newPositionX >= Constants.SCREEN_WIDTH) {
-			positionX = Constants.SCREEN_WIDTH;
+		} else if (newPositionX >= DisplayConfiguration.getInstance().getWidth()) {
+			positionX = DisplayConfiguration.getInstance().getWidth();
 		} else {
 			positionX = (int) newPositionX;
 		}
 
 		if (newPositionY <= 0) {
 			positionY = 0;
-		} else if (newPositionY >= Constants.SCREEN_HEIGHT) {
-			positionY = Constants.SCREEN_HEIGHT;
+		} else if (newPositionY >= DisplayConfiguration.getInstance().getHeight()) {
+			positionY = DisplayConfiguration.getInstance().getHeight();
 		} else {
 			positionY = (int) newPositionY;
 		}

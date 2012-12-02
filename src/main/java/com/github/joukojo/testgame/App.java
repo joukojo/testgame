@@ -1,5 +1,8 @@
 package com.github.joukojo.testgame;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 import javax.swing.JOptionPane;
 
 import org.slf4j.Logger;
@@ -18,6 +21,8 @@ public class App {
 
 	public static void main(String[] args) throws InterruptedException {
 
+
+
 		final GameEngine gameEngine = GameEngine.getInstance();
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 		while (true) {
@@ -28,16 +33,16 @@ public class App {
 			LOG.debug("starting the game engine");
 			gameEngine.startGame();
 
-			
 			final Player player = (Player) worldCore.getMoveable("player");
 
 			while (!player.isDestroyed()) {
 				Thread.sleep(200L);
 				Thread.yield();
-			} 
+			}
 
 			gameEngine.stopGame();
-			JOptionPane.showMessageDialog(null, "Game Over!\nScore: " + player.getScore());
+			JOptionPane.showMessageDialog(null,
+					"Game Over!\nScore: " + player.getScore());
 			worldCore.resetWorld();
 		}
 

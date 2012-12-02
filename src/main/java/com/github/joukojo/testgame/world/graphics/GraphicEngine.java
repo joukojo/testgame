@@ -2,6 +2,7 @@ package com.github.joukojo.testgame.world.graphics;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.DisplayMode;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.joukojo.testgame.Constants;
+import com.github.joukojo.testgame.DisplayConfiguration;
 import com.github.joukojo.testgame.Player;
 import com.github.joukojo.testgame.PlayerMoveListener;
 import com.github.joukojo.testgame.world.core.Drawable;
@@ -28,7 +30,8 @@ import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
 public class GraphicEngine extends JFrame {
 
-	private final static Logger LOG = LoggerFactory.getLogger(GraphicEngine.class);
+	private final static Logger LOG = LoggerFactory
+			.getLogger(GraphicEngine.class);
 	/**
 	 * 
 	 */
@@ -36,15 +39,20 @@ public class GraphicEngine extends JFrame {
 	private final Canvas canvas;
 	private final BufferedImage bi;
 	private final BufferStrategy buffer;
+	private DisplayMode originalDisplayMode;
 
-	public GraphicEngine() {
-		super();
+	public GraphicEngine(GraphicsConfiguration graphicsConfiguration) {
+		
+		super(graphicsConfiguration);
 		setTitle("testgame - alpha");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+		
+		
+		setUndecorated(true);
+		setSize(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 		canvas = new Canvas();
 		canvas.setIgnoreRepaint(true);
-		canvas.setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+		canvas.setSize(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 		final PlayerMoveListener mouseListener = new PlayerMoveListener();
 		canvas.addMouseMotionListener(mouseListener);
 		canvas.addMouseListener(mouseListener);
@@ -63,7 +71,7 @@ public class GraphicEngine extends JFrame {
 		final GraphicsDevice gd = ge.getDefaultScreenDevice();
 		final GraphicsConfiguration gc = gd.getDefaultConfiguration();
 
-		bi = gc.createCompatibleImage(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+		bi = gc.createCompatibleImage(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 
 	}
 
@@ -120,7 +128,7 @@ public class GraphicEngine extends JFrame {
 	private void drawBackground(final Graphics2D g2d) {
 		final Color background = Color.BLACK;
 		g2d.setColor(background);
-		g2d.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+		g2d.fillRect(0, 0, DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 	}
 
 	private void drawStatusTexts(final Graphics2D g2d) {
@@ -149,7 +157,8 @@ public class GraphicEngine extends JFrame {
 
 	}
 
-	protected void drawDrawableObjects(final Graphics g, final List<Drawable> allDrawables) {
+	protected void drawDrawableObjects(final Graphics g,
+			final List<Drawable> allDrawables) {
 		for (final Drawable drawable : allDrawables) {
 			LOG.trace("drawing object: {}", drawable);
 			drawable.draw(g);
@@ -158,7 +167,8 @@ public class GraphicEngine extends JFrame {
 		LOG.trace("all drawable objects drawn");
 	}
 
-	protected void drawMoveableObjects(final Graphics g, final List<Moveable> allMoveables) {
+	protected void drawMoveableObjects(final Graphics g,
+			final List<Moveable> allMoveables) {
 		for (final Drawable drawable : allMoveables) {
 			drawable.draw(g);
 		}

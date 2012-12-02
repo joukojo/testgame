@@ -35,7 +35,7 @@ public class MonsterCreatorTask implements Runnable {
 		LOG.debug("current level: {}", level);
 		for (int i = 0; i < level * 2; i++) {
 			final Monster monster = new Monster();
-			monster.setLocationX(random.nextInt(Constants.SCREEN_WIDTH - 100));
+			monster.setLocationX(random.nextInt(DisplayConfiguration.getInstance().getWidth()- 100));
 			monster.setLocationY(0);
 
 			worldCore.addMoveable(Constants.MONSTERS, monster);
@@ -69,7 +69,7 @@ public class MonsterCreatorTask implements Runnable {
 		final List<Moveable> moveableMonsters = worldCore.getMoveableObjects(Constants.MONSTERS);
 		if (moveableMonsters != null && !moveableMonsters.isEmpty()) {
 			for (final Moveable moveable : moveableMonsters) {
-				if (moveable.isOutside(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)) {
+				if (moveable.isOutside(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getWidth())) {
 
 					if (!moveable.isDestroyed()) {
 						// The monster has reached the down -> decrease health
@@ -91,7 +91,7 @@ public class MonsterCreatorTask implements Runnable {
 		if (bullets != null && !bullets.isEmpty()) {
 			for (final Moveable moveable : bullets) {
 				if (moveable != null) {
-					if (moveable.isOutside(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)) {
+					if (moveable.isOutside(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight())) {
 						moveable.setDestroyed(true);
 					}
 				}
