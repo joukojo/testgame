@@ -1,8 +1,5 @@
 package com.github.joukojo.testgame;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-
 import javax.swing.JOptionPane;
 
 import org.slf4j.Logger;
