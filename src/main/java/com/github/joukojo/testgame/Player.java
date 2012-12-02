@@ -1,13 +1,14 @@
 package com.github.joukojo.testgame;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.joukojo.testgame.images.ImageFactory;
 import com.github.joukojo.testgame.world.core.Moveable;
 
 public class Player implements Moveable {
@@ -18,15 +19,15 @@ public class Player implements Moveable {
 	private double directionY = 0;
 	private int level = 1;
 	private long score = 0;
-	private long health = 10;
-	private Point point = new Point(300, 300);	
+	private long health = 100;
+	private Point point = new Point(300, 300);
 	private int positionX = 0;
 
 	public int getPositionX() {
 		return positionX;
 	}
 
-	public void setPositionX(int positionX) {
+	public void setPositionX(final int positionX) {
 		this.positionX = positionX;
 	}
 
@@ -34,7 +35,7 @@ public class Player implements Moveable {
 		return positionY;
 	}
 
-	public void setPositionY(int positionY) {
+	public void setPositionY(final int positionY) {
 		this.positionY = positionY;
 	}
 
@@ -42,7 +43,7 @@ public class Player implements Moveable {
 		return directionX;
 	}
 
-	public void setDirectionX(double directionX) {
+	public void setDirectionX(final double directionX) {
 		this.directionX = directionX;
 	}
 
@@ -50,13 +51,11 @@ public class Player implements Moveable {
 		return directionY;
 	}
 
-	public void setDirectionY(double directionY) {
+	public void setDirectionY(final double directionY) {
 		this.directionY = directionY;
 	}
 
-
-
-	public void setTarget(Point point) {
+	public void setTarget(final Point point) {
 		/*
 		 * [px py] (get-in @data [:player :position]) [tx ty] (get-in @data
 		 * [:player :target] [0 0]) dx (* (- tx px) 0.01) dy (* (- ty py) 0.01)
@@ -66,59 +65,92 @@ public class Player implements Moveable {
 	}
 
 	@Override
-	public void draw(Graphics graphics) {
+	public void draw(final Graphics graphics) {
+
+		final double direction = direction(directionX, directionY);
+		if (LOG.isDebugEnabled()) {
+			Object params[] = { directionX, directionY, direction };
+			LOG.debug("direction (x/y) : ({}/{} -> {})", params);
+		}
+		final int value = Double.valueOf(direction).intValue();
+		LOG.debug("player direction: {} degress", value);
+		//
+		// BufferedImage image = ImageFactory.getPlayerNorthImage();
+		//
+		BufferedImage image = null;
+		if (value < 0) {
+			image = ImageFactory.getImageForDegree(360 - value);
+		} else {
+			image = ImageFactory.getImageForDegree(value);
+		}
+		image = ImageFactory.getImageForDegree(1);
 		
-		graphics.setColor(Color.RED);
-		graphics.drawOval(positionX, positionY, 50, 50);
-		
-//		double direction = direction(directionX, directionY);
-//		
-//		BufferedImage image = ImageFactory.getPlayerNorthImage();
-//		
-		
-		
+		graphics.drawImage(image, positionX, positionY, null);
+
 	}
-	
-	
-	double direction(double x, double y) {
-	    if (x > 0)
-	        return Math.atan(y/x);
-	    if (x < 0)
-	        return Math.atan(y/x)+Math.PI;
-	    if (y > 0)
-	        return Math.PI/2;
-	    if (y < 0)
-	        return -Math.PI/2;
-	    return 0; // no direction
+
+	protected double direction(final double x, final double y) {
+
+		if (x == 0 && y < 0) {
+			return 0; // NORTH
+		} else if (x > 0 && y == 0) {
+			return 90; // EAST
+		} else if (x == 0 && y > 0) {
+			return 180; // SOUTH
+		} else if (x < 0 && y == 0) {
+			return 270; // WEST
+		}
+
+		if (x > 0 && y < 0) {
+			// NE
+			LOG.debug("NE");
+			return 90 - Math.toDegrees(Math.atan(Math.abs(y) / x));
+		} else if (x > 0 && y > 0) {
+			LOG.debug("SE");
+			// SE
+			return 180 - Math.toDegrees(Math.atan(y / x));
+		} else if (x < 0 && y > 0) {
+			LOG.debug("SW");
+			// SW
+			return 270 - Math.toDegrees(Math.atan(y / Math.abs(x)));
+		} else if (x < 0 && y < 0) {
+			LOG.debug("NW");
+			// NW
+			return 360 - Math.toDegrees(Math.atan(Math.abs(y) / Math.abs(x)));
+		}
+
+		return 0;
 	}
 
 	@Override
 	public void move() {
 
-		int targetX = getPoint().x;
-		int targetY = getPoint().y;
+		final int targetX = getPoint().x;
+		final int targetY = getPoint().y;
 
 		directionX = ((targetX - positionX) * 0.05);
 		directionY = ((targetY - positionY) * 0.05);
 
-		double newPositionX = (double) (positionX + directionX);
-		double newPositionY = (double) (positionY + directionY);
+		final double newPositionX = positionX + directionX;
+		final double newPositionY = positionY + directionY;
 
-		LOG.debug("newPositionX {}", newPositionX);
-		LOG.debug("newPositionY {}", newPositionY);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("newPositionX {}", newPositionX);
+			LOG.debug("newPositionY {}", newPositionY);
+		}
 
 		if (newPositionX <= 0) {
 			positionX = 0;
-		} else if (newPositionX >= Constants.SCREEN_WIDTH) {
-			positionX = Constants.SCREEN_WIDTH;
+		} else if (newPositionX >= DisplayConfiguration.getInstance().getWidth()) {
+			positionX = DisplayConfiguration.getInstance().getWidth();
 		} else {
 			positionX = (int) newPositionX;
 		}
 
 		if (newPositionY <= 0) {
 			positionY = 0;
-		} else if (newPositionY >= Constants.SCREEN_HEIGHT) {
-			positionY = Constants.SCREEN_HEIGHT;
+		} else if (newPositionY >= DisplayConfiguration.getInstance().getHeight()) {
+			positionY = DisplayConfiguration.getInstance().getHeight();
 		} else {
 			positionY = (int) newPositionY;
 		}
@@ -128,22 +160,22 @@ public class Player implements Moveable {
 	}
 
 	@Override
-	public boolean isOutside(int x, int y) {
-		return (positionX > x || positionX < 0) || (positionY > y || positionY < 0);
+	public boolean isOutside(final int x, final int y) {
+		return (positionX > x || positionX < 0)
+				|| (positionY > y || positionY < 0);
 	}
 
 	@Override
 	public boolean isDestroyed() {
-		
+
 		return !(getHealth() > 0);
 	}
 
 	@Override
-	public void setDestroyed(boolean b) {
-		
+	public void setDestroyed(final boolean b) {
 
 	}
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
@@ -153,7 +185,7 @@ public class Player implements Moveable {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(final int level) {
 		this.level = level;
 	}
 
@@ -161,7 +193,7 @@ public class Player implements Moveable {
 		return score;
 	}
 
-	public void setScore(long score) {
+	public void setScore(final long score) {
 		this.score = score;
 	}
 
@@ -169,7 +201,7 @@ public class Player implements Moveable {
 		return health;
 	}
 
-	public void setHealth(long health) {
+	public void setHealth(final long health) {
 		this.health = health;
 	}
 
@@ -177,9 +209,8 @@ public class Player implements Moveable {
 		return point;
 	}
 
-	public void setPoint(Point point) {
+	public void setPoint(final Point point) {
 		this.point = point;
 	}
-
 
 }

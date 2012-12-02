@@ -13,8 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class WorldCoreImpl implements WorldCore {
 
-	private final static Logger LOG = LoggerFactory
-			.getLogger(WorldCoreImpl.class);
+	private final static Logger LOG = LoggerFactory.getLogger(WorldCoreImpl.class);
 
 	private final Map<String, List<Drawable>> drawableObjects;
 	private final Map<String, List<Moveable>> moveableObjects;
@@ -69,11 +68,11 @@ public class WorldCoreImpl implements WorldCore {
 			final List<Moveable> stillActiveEntries = new ArrayList<Moveable>();
 
 			for (final Moveable moveable : entries) {
-				
+
 				if (!moveable.isDestroyed()) {
 					stillActiveEntries.add(moveable);
 				}
-				
+
 			}
 
 			moveableObjects.put(key, stillActiveEntries);
@@ -122,13 +121,13 @@ public class WorldCoreImpl implements WorldCore {
 	@Override
 	public List<Moveable> getMoveableObjects(final String objectName) {
 		final List<Moveable> allMoveableObjects = new ArrayList<Moveable>();
-		
+
 		final List<Moveable> moveableObjectList = moveableObjects.get(objectName);
-		
-		if( moveableObjectList != null ) {
+
+		if (moveableObjectList != null) {
 			allMoveableObjects.addAll(moveableObjectList);
 		}
-		
+
 		return allMoveableObjects;
 
 	}
@@ -140,22 +139,23 @@ public class WorldCoreImpl implements WorldCore {
 		final boolean isRemoved = objects.remove(moveable);
 
 		LOG.debug("isRemoved: {}", isRemoved);
-		
+
 	}
 
 	@Override
 	public List<String> getMoveableObjectNames() {
-		
+
 		return new ArrayList<String>(moveableObjects.keySet());
 	}
-	
+
 	@Override
 	public void resetWorld() {
-		LOG.debug("resetting world"); 
+		LOG.debug("resetting world");
 		moveableObjects.clear();
 		drawableObjects.clear();
-		
+
 	}
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);

@@ -29,19 +29,20 @@ public class WorldCoreTask implements Runnable {
 
 		while (isRunning()) {
 			LOG.debug("and world starts to move");
-			List<String> objectNames = worldCore.getMoveableObjectNames();
+			final List<String> objectNames = worldCore.getMoveableObjectNames();
 
-			for (String objectName : objectNames) {
+			for (final String objectName : objectNames) {
 
 				final List<Moveable> moveableObjects = worldCore.getMoveableObjects(objectName);
-				Object params[] = { objectName, moveableObjects.size() };
-				LOG.debug("the size of the moveable objects:{}:{}", params);
-				for (final Moveable moveable : moveableObjects) {
-					LOG.trace("moving object: {}", moveable);
-					moveable.move();
+				if (LOG.isDebugEnabled()) {
+					final Object params[] = { objectName, moveableObjects.size() };
+					LOG.debug("the size of the moveable objects:{}:{}", params);
 				}
+				moveObjects(moveableObjects);
 
 			}
+
+			// clean moveables at end
 			worldCore.cleanMoveables();
 
 			LOG.debug("and world has moved");
@@ -49,7 +50,7 @@ public class WorldCoreTask implements Runnable {
 				LOG.trace("Sleeping for 20 msecs");
 				Thread.sleep(20);
 				LOG.trace("Slept.");
-			} catch (InterruptedException e) {
+			} catch (final InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
 
@@ -59,11 +60,18 @@ public class WorldCoreTask implements Runnable {
 
 	}
 
+	private void moveObjects(final List<Moveable> moveableObjects) {
+		for (final Moveable moveable : moveableObjects) {
+			LOG.trace("moving object: {}", moveable);
+			moveable.move();
+		}
+	}
+
 	public boolean isRunning() {
 		return isRunning;
 	}
 
-	public void setRunning(boolean isRunning) {
+	public void setRunning(final boolean isRunning) {
 		this.isRunning = isRunning;
 	}
 }

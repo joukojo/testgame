@@ -16,9 +16,11 @@ public class MonsterCreatorTask implements Runnable {
 
 	private volatile boolean isrunning;
 
+	private final Random random = new Random();
+
 	public void incrementLevel() {
-		WorldCore worldCore = WorldCoreFactory.getWorld();
-		Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
+		final WorldCore worldCore = WorldCoreFactory.getWorld();
+		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
 		if (player != null) {
 			player.setLevel(player.getLevel() + 1);
 		}
@@ -26,33 +28,35 @@ public class MonsterCreatorTask implements Runnable {
 	}
 
 	public void createMonsters() {
-		WorldCore worldCore = WorldCoreFactory.getWorld();
-		Random random = new Random();
-		Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
-		LOG.debug("current level: {}", player.getLevel());
-		for (int i = 0; i < player.getLevel() * 2; i++) {
+		final WorldCore worldCore = WorldCoreFactory.getWorld();
+
+		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
+		final int level = player.getLevel();
+		LOG.debug("current level: {}", level);
+		for (int i = 0; i < level * 2; i++) {
 			final Monster monster = new Monster();
-			monster.locationX = random.nextInt(Constants.SCREEN_WIDTH - 100);
-			monster.locationY = 0;
+			monster.setLocationX(random.nextInt(DisplayConfiguration.getInstance().getWidth()- 100));
+			monster.setLocationY(0);
 
 			worldCore.addMoveable(Constants.MONSTERS, monster);
 			try {
 
-				int delta = player.getLevel() * 150;
+				final int delta = level * 150;
 				if (delta < 2000) {
 					Thread.sleep(2000 - delta);
 				}
-			} catch (InterruptedException e) {
+			} catch (final InterruptedException e) {
 				LOG.warn("Thread is interrupted: {}", e.getMessage());
 				Thread.interrupted();
 			}
 		}
 	}
 
+	@Override
 	public void run() {
 		setIsrunning(true);
 		createMonsters();
-		
+
 		while (isIsrunning()) {
 
 			clearMonsterOutsideOfViewPoint();
@@ -60,12 +64,12 @@ public class MonsterCreatorTask implements Runnable {
 	}
 
 	public void clearMonsterOutsideOfViewPoint() {
-		WorldCore worldCore = WorldCoreFactory.getWorld();
+		final WorldCore worldCore = WorldCoreFactory.getWorld();
 
-		List<Moveable> moveableMonsters = worldCore.getMoveableObjects(Constants.MONSTERS);
+		final List<Moveable> moveableMonsters = worldCore.getMoveableObjects(Constants.MONSTERS);
 		if (moveableMonsters != null && !moveableMonsters.isEmpty()) {
 			for (final Moveable moveable : moveableMonsters) {
-				if (moveable.isOutside(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)) {
+				if (moveable.isOutside(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getWidth())) {
 
 					if (!moveable.isDestroyed()) {
 						// The monster has reached the down -> decrease health
@@ -74,7 +78,6 @@ public class MonsterCreatorTask implements Runnable {
 					}
 
 					moveable.setDestroyed(true);
-
 				}
 			}
 
@@ -86,9 +89,9 @@ public class MonsterCreatorTask implements Runnable {
 		final List<Moveable> bullets = worldCore.getMoveableObjects(Constants.BULLETS);
 
 		if (bullets != null && !bullets.isEmpty()) {
-			for (Moveable moveable : bullets) {
+			for (final Moveable moveable : bullets) {
 				if (moveable != null) {
-					if (moveable.isOutside(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)) {
+					if (moveable.isOutside(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight())) {
 						moveable.setDestroyed(true);
 					}
 				}
@@ -101,7 +104,7 @@ public class MonsterCreatorTask implements Runnable {
 		return isrunning;
 	}
 
-	public void setIsrunning(boolean isrunning) {
+	public void setIsrunning(final boolean isrunning) {
 		this.isrunning = isrunning;
 	}
 }

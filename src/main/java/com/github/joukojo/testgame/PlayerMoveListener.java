@@ -12,82 +12,91 @@ import com.github.joukojo.testgame.world.core.WorldCore;
 import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
 public class PlayerMoveListener implements MouseMotionListener, MouseListener {
-	private final static Logger LOG = LoggerFactory.getLogger(PlayerMoveListener.class);
+	private final static Logger LOG = LoggerFactory
+			.getLogger(PlayerMoveListener.class);
+
 	@Override
-	public void mouseClicked(MouseEvent e) {
-//		Point locationOnScreen = e.getLocationOnScreen();
-//		LOG.debug("mouse clicked");
-//		LOG.debug("location x:" + locationOnScreen.x);
-//		LOG.debug("location y:" + locationOnScreen.y);
+	public void mouseClicked(final MouseEvent e) {
+		// Point locationOnScreen = e.getLocationOnScreen();
+		// LOG.debug("mouse clicked");
+		// LOG.debug("location x:" + locationOnScreen.x);
+		// LOG.debug("location y:" + locationOnScreen.y);
 
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		Point locationOnScreen = e.getLocationOnScreen();
-		LOG.debug("mouse pressed");
-		LOG.debug("location x:" + locationOnScreen.x);
-		LOG.debug("location y:" + locationOnScreen.y);
+	public void mousePressed(final MouseEvent e) {
+		final Point locationOnScreen = e.getLocationOnScreen();
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("mouse pressed");
+			LOG.debug("location x: {}", locationOnScreen.x);
+			LOG.debug("location y: {}", locationOnScreen.y);
+		}
 
-		WorldCore worldCore = WorldCoreFactory.getWorld();
-		Bullet bullet = new Bullet();
-		Player player = (Player) worldCore.getMoveable("player");
-		bullet.setDirectionX(player.getDirectionX() + 0.2);
-		bullet.setDirectionY(player.getDirectionY()+ 0.2);
-		bullet.setLocationX(player.getPositionX());
-		bullet.setLocationY(player.getPositionY());
+		final WorldCore worldCore = WorldCoreFactory.getWorld();
 
-		worldCore.addMoveable("bullets", bullet);
-	}
+		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
+		if (player != null) {
+			final Bullet bullet = new Bullet();
+			// bullet.setDirectionX(bulletX);
+			bullet.setDirectionY(-5);
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
-//		Point locationOnScreen = e.getLocationOnScreen();
-//		LOG.debug("mouse released");
-//		LOG.debug("location x:" + locationOnScreen.x);
-//		LOG.debug("location y:" + locationOnScreen.y);
+			bullet.setLocationX(player.getPositionX());
+			bullet.setLocationY(player.getPositionY());
+			worldCore.addMoveable(Constants.BULLETS, bullet);
+		}
 
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-//		Point locationOnScreen = e.getLocationOnScreen();
-//		LOG.debug("mouse entered");
-//		LOG.debug("location x:" + locationOnScreen.x);
-//		LOG.debug("location y:" + locationOnScreen.y);
-		
+	public void mouseReleased(final MouseEvent e) {
+		// Point locationOnScreen = e.getLocationOnScreen();
+		// LOG.debug("mouse released");
+		// LOG.debug("location x:" + locationOnScreen.x);
+		// LOG.debug("location y:" + locationOnScreen.y);
 
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-//		Point locationOnScreen = e.getPoint();
-//		LOG.debug("mouse exited");
-//		LOG.debug("location x:" + locationOnScreen.x);
-//		LOG.debug("location y:" + locationOnScreen.y);
-//
-//
+	public void mouseEntered(final MouseEvent e) {
+		// Point locationOnScreen = e.getLocationOnScreen();
+		// LOG.debug("mouse entered");
+		// LOG.debug("location x:" + locationOnScreen.x);
+		// LOG.debug("location y:" + locationOnScreen.y);
+
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
-//		Point locationOnScreen = e.getLocationOnScreen();
-//		LOG.debug("mouse dragged");
-//		LOG.debug("location x:" + locationOnScreen.x);
-//		LOG.debug("location y:" + locationOnScreen.y);
-		WorldCore worldCore = WorldCoreFactory.getWorld();
-		Player player = (Player) worldCore.getMoveable("player");
-		player.setPoint(e.getPoint());
+	public void mouseExited(final MouseEvent e) {
+		// Point locationOnScreen = e.getPoint();
+		// LOG.debug("mouse exited");
+		// LOG.debug("location x:" + locationOnScreen.x);
+		// LOG.debug("location y:" + locationOnScreen.y);
+		//
+		//
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {
-		WorldCore worldCore = WorldCoreFactory.getWorld();
-		Player player = (Player) worldCore.getMoveable("player");
-		if( player != null ) {
+	public void mouseDragged(final MouseEvent e) {
+		// Point locationOnScreen = e.getLocationOnScreen();
+		// LOG.debug("mouse dragged");
+		// LOG.debug("location x:" + locationOnScreen.x);
+		// LOG.debug("location y:" + locationOnScreen.y);
+		final WorldCore worldCore = WorldCoreFactory.getWorld();
+		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
+		if (player != null) {
 			player.setPoint(e.getPoint());
 		}
-		
+	}
+
+	@Override
+	public void mouseMoved(final MouseEvent e) {
+		final WorldCore worldCore = WorldCoreFactory.getWorld();
+		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
+		if (player != null) {
+			player.setPoint(e.getPoint());
+		}
+
 	}
 
 }
