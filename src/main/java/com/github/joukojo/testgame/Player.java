@@ -66,23 +66,8 @@ public class Player implements Moveable {
 
 	@Override
 	public void draw(final Graphics graphics) {
-
-		final double direction = direction(directionX, directionY);
-		if (LOG.isDebugEnabled()) {
-			Object params[] = { directionX, directionY, direction };
-			LOG.debug("direction (x/y) : ({}/{} -> {})", params);
-		}
-		final int value = Double.valueOf(direction).intValue();
-		LOG.debug("player direction: {} degress", value);
-		//
-		// BufferedImage image = ImageFactory.getPlayerNorthImage();
-		//
 		BufferedImage image = null;
-		if (value < 0) {
-			image = ImageFactory.getImageForDegree(360 - value);
-		} else {
-			image = ImageFactory.getImageForDegree(value);
-		}
+		
 		image = ImageFactory.getImageForDegree(1);
 		
 		graphics.drawImage(image, positionX, positionY, null);
