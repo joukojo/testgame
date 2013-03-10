@@ -83,4 +83,8 @@ public class Monster implements Moveable {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
+	public static Monster factory() {
+		final Monster monster = new Monster();
+		return monster; 
+	}
 }

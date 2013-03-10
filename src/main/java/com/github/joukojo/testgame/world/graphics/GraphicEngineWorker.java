@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 
 public class GraphicEngineWorker implements Runnable {
 
-	private final GraphicEngine graphicEngine;
-	private volatile boolean isRunning;
-	private final Logger LOG = LoggerFactory.getLogger(GraphicEngineWorker.class);
+	private transient final GraphicEngine graphicEngine;
+	private transient volatile boolean isRunning;
+	private final static Logger LOG = LoggerFactory.getLogger(GraphicEngineWorker.class);
 
 	public GraphicEngineWorker(final GraphicEngine graphicEngine) {
 		this.graphicEngine = graphicEngine;
-		setRunning(true);
+		isRunning = true;
 	}
 
 	@Override

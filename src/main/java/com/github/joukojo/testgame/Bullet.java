@@ -23,7 +23,7 @@ public class Bullet implements Moveable {
 		return locationX;
 	}
 
-	public void setLocationX(int locationX) {
+	public void setLocationX(final int locationX) {
 		this.locationX = locationX;
 	}
 
@@ -31,7 +31,7 @@ public class Bullet implements Moveable {
 		return locationY;
 	}
 
-	public void setLocationY(int locationY) {
+	public void setLocationY(final int locationY) {
 		this.locationY = locationY;
 	}
 
@@ -39,7 +39,7 @@ public class Bullet implements Moveable {
 		return directionX;
 	}
 
-	public void setDirectionX(double directionX) {
+	public void setDirectionX(final double directionX) {
 		this.directionX = directionX;
 	}
 
@@ -47,16 +47,16 @@ public class Bullet implements Moveable {
 		return directionY;
 	}
 
-	public void setDirectionY(double directionY) {
+	public void setDirectionY(final double directionY) {
 		this.directionY = directionY;
 	}
 
 
 	@Override
-	public void draw(Graphics graphics) {
+	public void draw(final Graphics graphics) {
 		if (!isDestroyed()) {
 			final BufferedImage bulletImage = ImageFactory.getBulletImage();
-			ImageObserver observer = null;
+			final ImageObserver observer = null;
 			graphics.drawImage(bulletImage, locationX, locationY, 15, 15, observer );
 		}
 
@@ -70,16 +70,16 @@ public class Bullet implements Moveable {
 	}
 
 	@Override
-	public boolean isOutside(int x, int y) {
-		return (locationX > x || locationX == 0)
-				|| (locationY > y || locationY <= 0);
+	public boolean isOutside(final int xCoord, final int yCoord) {
+		return (locationX > xCoord || locationX == 0)
+				|| (locationY > yCoord || locationY <= 0);
 	}
 
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
 
-	public void setDestroyed(boolean isDestroyed) {
+	public void setDestroyed(final boolean isDestroyed) {
 		this.isDestroyed = isDestroyed;
 	}
 

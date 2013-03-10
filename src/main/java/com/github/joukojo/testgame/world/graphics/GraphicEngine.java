@@ -6,8 +6,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -34,20 +32,20 @@ public class GraphicEngine extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final Canvas canvas;
-	private final BufferedImage bi;
-	private final BufferStrategy buffer;
+	
+	private transient final BufferedImage bufferedImage;
+	private transient final BufferStrategy bufferStrategy;
 
-	public GraphicEngine(GraphicsConfiguration graphicsConfiguration) {
+	public GraphicEngine(final GraphicsConfiguration gConfiguration) {
 		
-		super(graphicsConfiguration);
+		super(gConfiguration);
 		setTitle("testgame - alpha");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
 		
 		setUndecorated(true);
 		setSize(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
-		canvas = new Canvas();
+		final Canvas canvas = new Canvas();
 		canvas.setIgnoreRepaint(true);
 		canvas.setSize(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 		final PlayerMoveListener mouseListener = new PlayerMoveListener();
@@ -61,19 +59,12 @@ public class GraphicEngine extends JFrame {
 		pack();
 		setVisible(true);
 		canvas.createBufferStrategy(2);
-		buffer = canvas.getBufferStrategy();
+		bufferStrategy = canvas.getBufferStrategy();
 
-		// Get graphics configuration...
-		final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		final GraphicsDevice gd = ge.getDefaultScreenDevice();
-		final GraphicsConfiguration gc = gd.getDefaultConfiguration();
-
-		bi = gc.createCompatibleImage(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
+		bufferedImage = gConfiguration.createCompatibleImage(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 
 	}
 
-	public void init() {
-	}
 
 	public void drawObjects() {
 		LOG.trace("drawing objects");
@@ -88,10 +79,10 @@ public class GraphicEngine extends JFrame {
 
 			// Blit image and flip...
 			LOG.debug("blit image and flip");
-			graphics = buffer.getDrawGraphics();
-			graphics.drawImage(bi, 0, 0, null);
-			if (!buffer.contentsLost()) {
-				buffer.show();
+			graphics = bufferStrategy.getDrawGraphics();
+			graphics.drawImage(bufferedImage, 0, 0, null);
+			if (!bufferStrategy.contentsLost()) {
+				bufferStrategy.show();
 			}
 
 		} finally {
@@ -104,52 +95,52 @@ public class GraphicEngine extends JFrame {
 	}
 
 	private void drawBufferImage() {
-		Graphics2D g2d = null;
+		Graphics2D graphics2d = null;
 		try {
-			g2d = bi.createGraphics();
-			drawBackground(g2d);
+			graphics2d = bufferedImage.createGraphics();
+			drawBackground(graphics2d);
 
 			LOG.trace("drawing objects");
-			drawObjects(g2d);
+			drawObjects(graphics2d);
 			LOG.trace("drawing status texts");
-			drawStatusTexts(g2d);
+			drawStatusTexts(graphics2d);
 
 			LOG.trace("buffer image is complete");
 		} finally {
-			if (g2d != null) {
-				g2d.dispose();
+			if (graphics2d != null) {
+				graphics2d.dispose();
 			}
 		}
 	}
 
-	private void drawBackground(final Graphics2D g2d) {
+	private void drawBackground(final Graphics2D graphics2d) {
 		final Color background = Color.BLACK;
-		g2d.setColor(background);
-		g2d.fillRect(0, 0, DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
+		graphics2d.setColor(background);
+		graphics2d.fillRect(0, 0, DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 	}
 
-	private void drawStatusTexts(final Graphics2D g2d) {
-		g2d.setFont(new Font("Courier New", Font.PLAIN, 12));
-		g2d.setColor(Color.GREEN);
+	private void drawStatusTexts(final Graphics2D graphics2d) {
+		graphics2d.setFont(new Font("Courier New", Font.PLAIN, 12));
+		graphics2d.setColor(Color.GREEN);
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 		final Player player = (Player) worldCore.getMoveable("player");
 		if (player != null) {
 			final int level = player.getLevel();
-			g2d.drawString("Level:" + level, 20, 20);
-			g2d.drawString("Score:" + player.getScore(), 20, 40);
-			g2d.drawString("Health:" + player.getHealth(), 20, 60);
+			graphics2d.drawString("Level:" + level, 20, 20);
+			graphics2d.drawString("Score:" + player.getScore(), 20, 40);
+			graphics2d.drawString("Health:" + player.getHealth(), 20, 60);
 		}
 	}
 
-	public void drawObjects(final Graphics g) {
+	public void drawObjects(final Graphics graphics) {
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 		LOG.trace("Starting to draw drawables");
 		final List<Drawable> allDrawables = worldCore.getAllDrawables();
 
-		drawDrawableObjects(g, allDrawables);
+		drawDrawableObjects(graphics, allDrawables);
 		LOG.trace("Starting to draw moveables");
 		final List<Moveable> allMoveables = worldCore.getAllMoveables();
-		drawMoveableObjects(g, allMoveables);
+		drawMoveableObjects(graphics, allMoveables);
 		LOG.trace("all objects are drawn");
 
 	}

@@ -13,37 +13,36 @@ import org.slf4j.LoggerFactory;
  */
 public class WorldCoreTask implements Runnable {
 
-	private volatile boolean isRunning;
+	private transient volatile boolean isWorldRunning;
 	private final static Logger LOG = LoggerFactory.getLogger(WorldCoreTask.class);
 
 	public WorldCoreTask() {
-		setRunning(true);
+		isWorldRunning = true;
 	}
 
 	@Override
 	public void run() {
-		final WorldCore worldCore = WorldCoreFactory.getWorld();
+		
 		final int existingPriority = Thread.currentThread().getPriority();
 		final Thread currentThread = Thread.currentThread();
 		currentThread.setPriority(Thread.MIN_PRIORITY);
 
 		while (isRunning()) {
 			LOG.debug("and world starts to move");
-			final List<String> objectNames = worldCore.getMoveableObjectNames();
+			final List<String> objectNames = WorldCoreFactory.getWorld().getMoveableObjectNames();
 
 			for (final String objectName : objectNames) {
 
-				final List<Moveable> moveableObjects = worldCore.getMoveableObjects(objectName);
+				final List<Moveable> moveableObjects = WorldCoreFactory.getWorld().getMoveableObjects(objectName);
 				if (LOG.isDebugEnabled()) {
-					final Object params[] = { objectName, moveableObjects.size() };
-					LOG.debug("the size of the moveable objects:{}:{}", params);
+					LOG.debug("the size of the moveable objects:{}:{}", objectName, moveableObjects.size());
 				}
 				moveObjects(moveableObjects);
 
 			}
 
 			// clean moveables at end
-			worldCore.cleanMoveables();
+			WorldCoreFactory.getWorld().cleanMoveables();
 
 			LOG.debug("and world has moved");
 			try {
@@ -68,10 +67,10 @@ public class WorldCoreTask implements Runnable {
 	}
 
 	public boolean isRunning() {
-		return isRunning;
+		return isWorldRunning;
 	}
 
 	public void setRunning(final boolean isRunning) {
-		this.isRunning = isRunning;
+		this.isWorldRunning = isRunning;
 	}
 }

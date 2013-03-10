@@ -17,26 +17,26 @@ import com.github.joukojo.testgame.world.graphics.GraphicEngineWorker;
 
 public class GameEngine {
 	private final static Logger LOG = LoggerFactory.getLogger(GameEngine.class);
-	private GraphicEngine engine;
+	
 
-	private MonsterCreatorTask monsterCreatorTask;
+	private MonsterCreatorTask creatorTask;
 	private CollisionDetectionWorker collisionDetector;
 	private GraphicEngineWorker graphicEngineWorker;
 	private WorldCoreTask worldCoreTask;
 
 	private ExecutorService executorService;
-	private static GameEngine INSTANCE;
+	private static GameEngine instance;
 
 	public void init() {
 		
-		GraphicsEnvironment env = GraphicsEnvironment
+		final GraphicsEnvironment env = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
-		GraphicsDevice[] devices = env.getScreenDevices();
+		final GraphicsDevice[] devices = env.getScreenDevices();
 		
-		
-		
-		GraphicsConfiguration graphicsEngine = devices[0].getDefaultConfiguration();;
-		engine = new GraphicEngine(graphicsEngine);
+	
+		final GraphicsConfiguration graphicsEngine = devices[0].getDefaultConfiguration();
+	
+		final GraphicEngine engine = new GraphicEngine(graphicsEngine);
 
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 		final Player player = new Player();
@@ -44,48 +44,86 @@ public class GameEngine {
 		player.setPositionY(100);
 
 		worldCore.addMoveable(Constants.PLAYER, player);
-		monsterCreatorTask = new MonsterCreatorTask();
+		setMonsterCreatorTask(new MonsterCreatorTask());
 
-		collisionDetector = new CollisionDetectionWorker();
+		setCollisionDetector(new CollisionDetectionWorker());
 
-		graphicEngineWorker = new GraphicEngineWorker(engine);
+		setGraphicEngineWorker(new GraphicEngineWorker(engine));
 
-		worldCoreTask = new WorldCoreTask();
+		setWorldCoreTask(new WorldCoreTask());
 
-		executorService = Executors.newCachedThreadPool();
+		setExecutorService(Executors.newCachedThreadPool());
 
 	}
 
 	public void startGame() {
 		LOG.debug("starting up the game engine");
-		executorService.execute(monsterCreatorTask);
-		executorService.execute(collisionDetector);
-		executorService.execute(graphicEngineWorker);
-		executorService.execute(worldCoreTask);
+		getExecutorService().execute(getMonsterCreatorTask());
+		getExecutorService().execute(getCollisionDetector());
+		getExecutorService().execute(getGraphicEngineWorker());
+		getExecutorService().execute(getWorldCoreTask());
 
 	}
 
 	public void stopGame() {
-		monsterCreatorTask.setIsrunning(false);
-		collisionDetector.setRunning(false);
-		graphicEngineWorker.setRunning(false);
-		worldCoreTask.setRunning(false);
+		getMonsterCreatorTask().setIsrunning(false);
+		getCollisionDetector().setRunning(false);
+		getGraphicEngineWorker().setRunning(false);
+		getWorldCoreTask().setRunning(false);
 
-		executorService.shutdownNow();
+		getExecutorService().shutdownNow();
 
 	}
 
-	public static synchronized GameEngine getInstance() {
+	public static  GameEngine getInstance() {
 
-		if (INSTANCE == null) {
-			INSTANCE = new GameEngine();
+		synchronized (GameEngine.class) {
+			if (instance == null) {
+				instance = new GameEngine();
+			}
 		}
 
-		return INSTANCE;
+		return instance;
 	}
 
-	public void reset() {
+	public MonsterCreatorTask getMonsterCreatorTask() {
+		return creatorTask;
+	}
 
+	public void setMonsterCreatorTask(final MonsterCreatorTask creatorTask) {
+		this.creatorTask = creatorTask;
+	}
+
+	public CollisionDetectionWorker getCollisionDetector() {
+		return collisionDetector;
+	}
+
+	public void setCollisionDetector(final CollisionDetectionWorker collisionDetector) {
+		this.collisionDetector = collisionDetector;
+	}
+
+	public GraphicEngineWorker getGraphicEngineWorker() {
+		return graphicEngineWorker;
+	}
+
+	public void setGraphicEngineWorker(final GraphicEngineWorker gEngineWorker) {
+		this.graphicEngineWorker = gEngineWorker;
+	}
+
+	public WorldCoreTask getWorldCoreTask() {
+		return worldCoreTask;
+	}
+
+	public void setWorldCoreTask(final WorldCoreTask worldCoreTask) {
+		this.worldCoreTask = worldCoreTask;
+	}
+
+	public ExecutorService getExecutorService() {
+		return executorService;
+	}
+
+	public void setExecutorService(final ExecutorService executorService) {
+		this.executorService = executorService;
 	}
 
 }
