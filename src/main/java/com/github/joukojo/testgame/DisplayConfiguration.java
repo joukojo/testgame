@@ -6,35 +6,43 @@ import java.awt.GraphicsEnvironment;
 
 public class DisplayConfiguration {
 
-	private DisplayMode originalDisplayMode;
+	private DisplayMode displayMode;
 
 	public void init() {
-		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment
+		final GraphicsEnvironment gEnvironment = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
-		GraphicsDevice graphicsDevice = graphicsEnvironment
+		final GraphicsDevice graphicsDevice = gEnvironment
 				.getDefaultScreenDevice();
-		originalDisplayMode = graphicsDevice.getDisplayMode();
+		setDisplayMode(graphicsDevice.getDisplayMode());
 
 	}
 
 	public int getHeight() {
-		return originalDisplayMode.getHeight();
+		return getDisplayMode().getHeight();
 	}
 
 	public int getWidth() {
 
-		return originalDisplayMode.getWidth();
+		return getDisplayMode().getWidth();
 	}
 
-	private static DisplayConfiguration INSTANCE = new DisplayConfiguration();
+	private static DisplayConfiguration instance = new DisplayConfiguration();
 
 	static {
-		INSTANCE.init();
+		instance.init();
 
 	}
 
 	public static DisplayConfiguration getInstance() {
-		return INSTANCE;
+		return instance;
+	}
+
+	public DisplayMode getDisplayMode() {
+		return displayMode;
+	}
+
+	public void setDisplayMode(final DisplayMode displayMode) {
+		this.displayMode = displayMode;
 	}
 
 }
