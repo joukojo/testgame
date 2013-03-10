@@ -14,7 +14,7 @@ public class Monster implements Moveable {
 	private int locationY = 0;
 	private double directionX = 0.1;
 	private double directionY = 1;
-	private boolean isDestroyed = false;
+	private boolean destroyed = false;
 
 	@Override
 	public void draw(final Graphics graphics) {
@@ -32,8 +32,8 @@ public class Monster implements Moveable {
 	}
 
 	@Override
-	public boolean isOutside(final int x, final int y) {
-		return (locationX > x || locationX < 0) || (locationY > y || locationY < 0);
+	public boolean isOutside(final int xCoord, final int yCoord) {
+		return (locationX > xCoord || locationX < 0) || (locationY > yCoord || locationY < 0);
 	}
 
 	public int getLocationX() {
@@ -70,12 +70,12 @@ public class Monster implements Moveable {
 
 	@Override
 	public boolean isDestroyed() {
-		return isDestroyed;
+		return destroyed;
 	}
 
 	@Override
 	public void setDestroyed(final boolean isDestroyed) {
-		this.isDestroyed = isDestroyed;
+		this.destroyed = isDestroyed;
 	}
 
 	@Override
@@ -84,7 +84,6 @@ public class Monster implements Moveable {
 	}
 
 	public static Monster factory() {
-		final Monster monster = new Monster();
-		return monster; 
+		return new Monster(); 
 	}
 }
