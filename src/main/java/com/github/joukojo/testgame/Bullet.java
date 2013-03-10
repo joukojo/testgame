@@ -17,8 +17,8 @@ public class Bullet implements Moveable {
 	private double directionX = 0.0;
 	private double directionY = 0.0;
 	
-	private boolean isDestroyed = false;
-	private final ImageObserver observer = null;
+	private boolean destroyed = false;
+	private static final ImageObserver OBSERVER = null;
 
 	public int getLocationX() {
 		return locationX;
@@ -58,7 +58,7 @@ public class Bullet implements Moveable {
 		if (!isDestroyed()) {
 			final BufferedImage bulletImage = ImageFactory.getBulletImage();
 			
-			graphics.drawImage(bulletImage, locationX, locationY, 15, 15, getObserver() );
+			graphics.drawImage(bulletImage, locationX, locationY, 15, 15, OBSERVER );
 		}
 
 	}
@@ -77,11 +77,11 @@ public class Bullet implements Moveable {
 	}
 
 	public boolean isDestroyed() {
-		return isDestroyed;
+		return destroyed;
 	}
 
 	public void setDestroyed(final boolean isDestroyed) {
-		this.isDestroyed = isDestroyed;
+		this.destroyed = isDestroyed;
 	}
 
 	@Override
@@ -89,8 +89,6 @@ public class Bullet implements Moveable {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-	public ImageObserver getObserver() {
-		return observer;
-	}
+	
 
 }
