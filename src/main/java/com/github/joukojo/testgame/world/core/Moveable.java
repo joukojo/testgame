@@ -2,11 +2,11 @@ package com.github.joukojo.testgame.world.core;
 
 public interface Moveable extends Drawable {
 
-	public void move();
+	void move();
 
-	public boolean isOutside(int x, int y); 
+	boolean isOutside(int xCoord, int yCoord); 
 	
-	public boolean isDestroyed();
+	boolean isDestroyed();
 
-	public void setDestroyed(boolean b); 
+	void setDestroyed(boolean isDestroyed); 
 }
