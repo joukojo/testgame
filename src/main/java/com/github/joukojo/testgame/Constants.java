@@ -8,4 +8,8 @@ public class Constants {
 	public static final String BULLETS = "bullets";
 
 
+	private Constants() {
+		// do not instantiate
+	}
+	
 }
