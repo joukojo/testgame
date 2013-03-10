@@ -8,7 +8,7 @@ Compiling
 
 The compilation is done via maven:
 
-#mvn package
+mvn package
 
 Running the game 
 ===========
