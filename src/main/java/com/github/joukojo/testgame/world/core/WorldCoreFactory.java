@@ -4,17 +4,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WorldCoreFactory {
-	private final static Logger LOG = LoggerFactory.getLogger(WorldCoreFactory.class);
-	
-	private static WorldCore INSTANCE; 
-	
-	public static synchronized WorldCore getWorld() {
-		if( INSTANCE == null ) {
-			LOG.debug("creating world instance"); 
-			INSTANCE = new WorldCoreImpl();
+	private final static Logger LOG = LoggerFactory
+			.getLogger(WorldCoreFactory.class);
+
+	private static WorldCore instance;
+
+	public WorldCore getWorld() {
+		synchronized (WorldCoreFactory.class) {
+			if (instance == null) {
+				LOG.debug("creating world instance");
+				instance = new WorldCoreImpl();
+			}
 		}
-		return INSTANCE; 
+		return instance;
 	}
-	
 
 }
