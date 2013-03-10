@@ -36,7 +36,7 @@ public class CollisionDetectionWorker implements Runnable {
 		if (bullets != null && !bullets.isEmpty()) {
 			for (final Moveable moveableBullet : bullets) {
 				final Bullet bullet = (Bullet) moveableBullet;
-				if( bullet != null ) {
+				if (bullet != null) {
 					isBulletInCollisionWithMonster(worldCore, bullet);
 				}
 			}
@@ -51,14 +51,18 @@ public class CollisionDetectionWorker implements Runnable {
 
 			if (monsters != null) {
 				for (final Moveable moveable : monsters) {
-					final Monster monster = (Monster) moveable;
-					if (monster != null && !monster.isDestroyed() ) {
-						isPlayerAndMonsterInCollision(worldCore, player,
-								monster);
-					}
+					handlePlayerCollision(player, moveable);
 
 				}
 			}
+		}
+	}
+
+	private void handlePlayerCollision(final Player player,
+			final Moveable moveable) {
+		final Monster monster = (Monster) moveable;
+		if (monster != null && !monster.isDestroyed()) {
+			isPlayerAndMonsterInCollision(player, monster);
 		}
 	}
 
@@ -102,8 +106,8 @@ public class CollisionDetectionWorker implements Runnable {
 		}
 	}
 
-	private void isPlayerAndMonsterInCollision(final WorldCore worldCore,
-			final Player player, final Monster monster) {
+	private void isPlayerAndMonsterInCollision(final Player player,
+			final Monster monster) {
 		if (!monster.isDestroyed()) {
 
 			// correct the monster location

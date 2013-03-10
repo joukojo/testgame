@@ -1,6 +1,6 @@
 package com.github.joukojo.testgame;
 
-public class Constants {
+public final class Constants {
 	
 	
 	public static final String MONSTERS = "monsters";
