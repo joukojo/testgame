@@ -48,7 +48,7 @@ public class GameEngine {
 
 		setCollisionDetector(new CollisionDetectionWorker());
 
-		setgEngineWorker(new GraphicEngineWorker(engine));
+		setGEngineWorker(new GraphicEngineWorker(engine));
 
 		setWorldCoreTask(new WorldCoreTask());
 
@@ -60,7 +60,7 @@ public class GameEngine {
 		LOG.debug("starting up the game engine");
 		getExecutorService().execute(getMonsterCreatorTask());
 		getExecutorService().execute(getCollisionDetector());
-		getExecutorService().execute(getgEngineWorker());
+		getExecutorService().execute(getGEngineWorker());
 		getExecutorService().execute(getWorldCoreTask());
 
 	}
@@ -68,7 +68,7 @@ public class GameEngine {
 	public void stopGame() {
 		getMonsterCreatorTask().setIsrunning(false);
 		getCollisionDetector().setRunning(false);
-		getgEngineWorker().setRunning(false);
+		getGEngineWorker().setRunning(false);
 		getWorldCoreTask().setRunning(false);
 
 		getExecutorService().shutdownNow();
@@ -126,11 +126,11 @@ public class GameEngine {
 		this.creatorTask = creatorTask;
 	}
 
-	public GraphicEngineWorker getgEngineWorker() {
+	public GraphicEngineWorker getGEngineWorker() {
 		return gEngineWorker;
 	}
 
-	public void setgEngineWorker(final GraphicEngineWorker gEngineWorker) {
+	public void setGEngineWorker(final GraphicEngineWorker gEngineWorker) {
 		this.gEngineWorker = gEngineWorker;
 	}
 
