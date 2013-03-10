@@ -34,20 +34,20 @@ public class GraphicEngine extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final Canvas canvas;
-	private final BufferedImage bi;
-	private final BufferStrategy buffer;
+	
+	private transient final BufferedImage bufferedImage;
+	private transient final BufferStrategy bufferStrategy;
 
-	public GraphicEngine(GraphicsConfiguration graphicsConfiguration) {
+	public GraphicEngine(GraphicsConfiguration gConfiguration) {
 		
-		super(graphicsConfiguration);
+		super(gConfiguration);
 		setTitle("testgame - alpha");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
 		
 		setUndecorated(true);
 		setSize(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
-		canvas = new Canvas();
+		final Canvas canvas = new Canvas();
 		canvas.setIgnoreRepaint(true);
 		canvas.setSize(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 		final PlayerMoveListener mouseListener = new PlayerMoveListener();
@@ -61,19 +61,12 @@ public class GraphicEngine extends JFrame {
 		pack();
 		setVisible(true);
 		canvas.createBufferStrategy(2);
-		buffer = canvas.getBufferStrategy();
+		bufferStrategy = canvas.getBufferStrategy();
 
-		// Get graphics configuration...
-		final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		final GraphicsDevice gd = ge.getDefaultScreenDevice();
-		final GraphicsConfiguration gc = gd.getDefaultConfiguration();
-
-		bi = gc.createCompatibleImage(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
+		bufferedImage = gConfiguration.createCompatibleImage(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 
 	}
 
-	public void init() {
-	}
 
 	public void drawObjects() {
 		LOG.trace("drawing objects");
@@ -88,10 +81,10 @@ public class GraphicEngine extends JFrame {
 
 			// Blit image and flip...
 			LOG.debug("blit image and flip");
-			graphics = buffer.getDrawGraphics();
-			graphics.drawImage(bi, 0, 0, null);
-			if (!buffer.contentsLost()) {
-				buffer.show();
+			graphics = bufferStrategy.getDrawGraphics();
+			graphics.drawImage(bufferedImage, 0, 0, null);
+			if (!bufferStrategy.contentsLost()) {
+				bufferStrategy.show();
 			}
 
 		} finally {
@@ -106,7 +99,7 @@ public class GraphicEngine extends JFrame {
 	private void drawBufferImage() {
 		Graphics2D g2d = null;
 		try {
-			g2d = bi.createGraphics();
+			g2d = bufferedImage.createGraphics();
 			drawBackground(g2d);
 
 			LOG.trace("drawing objects");

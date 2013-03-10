@@ -9,7 +9,7 @@ public class WorldCoreFactory {
 
 	private static WorldCore instance;
 
-	public WorldCore getWorld() {
+	public static WorldCore getWorld() {
 		synchronized (WorldCoreFactory.class) {
 			if (instance == null) {
 				LOG.debug("creating world instance");
