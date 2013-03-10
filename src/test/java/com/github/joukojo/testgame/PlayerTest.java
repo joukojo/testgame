@@ -1,6 +1,7 @@
 package com.github.joukojo.testgame;
 
-import junit.framework.Assert;
+
+import org.junit.Assert;
 
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ public class PlayerTest {
 
 		final double direction = player.direction(1.0, 0.0);
 
-		Assert.assertEquals("wrong direction", 90.0, direction);
+		Assert.assertEquals("wrong direction", 90.0, direction,0.0);
 	}
 
 	@Test
@@ -23,7 +24,7 @@ public class PlayerTest {
 
 		final double direction = player.direction(0.0, 1.0);
 
-		Assert.assertEquals("wrong direction", 180.0, direction);
+		Assert.assertEquals("wrong direction", 180.0, direction,0.0);
 	}
 	
 	@Test
@@ -33,7 +34,7 @@ public class PlayerTest {
 
 		final double direction = player.direction(0.0, -1.0);
 
-		Assert.assertEquals("wrong direction", 0.0, direction);
+		Assert.assertEquals("wrong direction", 0.0, direction,0.0);
 	}
 	
 	@Test
@@ -43,7 +44,7 @@ public class PlayerTest {
 
 		final double direction = player.direction(-1.0, 0.0);
 
-		Assert.assertEquals("wrong direction", 270.0, direction);
+		Assert.assertEquals("wrong direction", 270.0, direction,0.0);
 	}
 	
 	@Test
@@ -52,7 +53,7 @@ public class PlayerTest {
 
 		final double direction = player.direction(1.0, -1.0);
 
-		Assert.assertEquals("wrong direction", 45.0, direction);
+		Assert.assertEquals("wrong direction", 45.0, direction ,0.0 );
 		
 	}
 	
@@ -62,7 +63,7 @@ public class PlayerTest {
 
 		final double direction = player.direction(1.0, 1.0);
 
-		Assert.assertEquals("wrong direction", 135.0, direction);
+		Assert.assertEquals("wrong direction", 135.0, direction,0.0);
 		
 	}
 	
@@ -72,7 +73,7 @@ public class PlayerTest {
 
 		final double direction = player.direction(-1.0, 1.0);
 
-		Assert.assertEquals("wrong direction", 225.0, direction);
+		Assert.assertEquals("wrong direction", 225.0, direction,0.0);
 		
 	}
 	
@@ -82,7 +83,7 @@ public class PlayerTest {
 
 		final double direction = player.direction(-1.0, -1.0);
 
-		Assert.assertEquals("wrong direction", 315.0, direction);
+		Assert.assertEquals("wrong direction", 315.0, direction,0.0);
 		
 	}		
 	
