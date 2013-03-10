@@ -17,7 +17,7 @@ import com.github.joukojo.testgame.world.graphics.GraphicEngineWorker;
 
 public class GameEngine {
 	private final static Logger LOG = LoggerFactory.getLogger(GameEngine.class);
-	private GraphicEngine engine;
+	
 
 	private MonsterCreatorTask monsterCreatorTask;
 	private CollisionDetectionWorker collisionDetector;
@@ -29,14 +29,14 @@ public class GameEngine {
 
 	public void init() {
 		
-		GraphicsEnvironment env = GraphicsEnvironment
+		final GraphicsEnvironment env = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
-		GraphicsDevice[] devices = env.getScreenDevices();
+		final GraphicsDevice[] devices = env.getScreenDevices();
 		
-		
-		
-		GraphicsConfiguration graphicsEngine = devices[0].getDefaultConfiguration();;
-		engine = new GraphicEngine(graphicsEngine);
+	
+		final GraphicsConfiguration graphicsEngine = devices[0].getDefaultConfiguration();
+	
+		final GraphicEngine engine = new GraphicEngine(graphicsEngine);
 
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 		final Player player = new Player();
@@ -75,17 +75,15 @@ public class GameEngine {
 
 	}
 
-	public static synchronized GameEngine getInstance() {
+	public static  GameEngine getInstance() {
 
-		if (INSTANCE == null) {
-			INSTANCE = new GameEngine();
+		synchronized (GameEngine.class) {
+			if (INSTANCE == null) {
+				INSTANCE = new GameEngine();
+			}
 		}
 
 		return INSTANCE;
-	}
-
-	public void reset() {
-
 	}
 
 }
