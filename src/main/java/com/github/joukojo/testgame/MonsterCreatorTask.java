@@ -12,7 +12,7 @@ import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
 public class MonsterCreatorTask implements Runnable {
 
-	private final Logger LOG = LoggerFactory.getLogger(MonsterCreatorTask.class);
+	private final static Logger LOG = LoggerFactory.getLogger(MonsterCreatorTask.class);
 
 	private volatile boolean isrunning;
 
@@ -35,7 +35,7 @@ public class MonsterCreatorTask implements Runnable {
 		LOG.debug("current level: {}", level);
 		for (int i = 0; i < level * 2; i++) {
 			final Monster monster = new Monster();
-			monster.setLocationX(random.nextInt(DisplayConfiguration.getInstance().getWidth()- 100));
+			monster.setLocationX(getRandom().nextInt(DisplayConfiguration.getInstance().getWidth()- 100));
 			monster.setLocationY(0);
 
 			worldCore.addMoveable(Constants.MONSTERS, monster);
@@ -106,5 +106,9 @@ public class MonsterCreatorTask implements Runnable {
 
 	public void setIsrunning(final boolean isrunning) {
 		this.isrunning = isrunning;
+	}
+
+	public Random getRandom() {
+		return random;
 	}
 }

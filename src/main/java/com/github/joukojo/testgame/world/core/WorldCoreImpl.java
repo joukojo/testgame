@@ -13,10 +13,11 @@ import org.slf4j.LoggerFactory;
 
 public class WorldCoreImpl implements WorldCore {
 
-	private final static Logger LOG = LoggerFactory.getLogger(WorldCoreImpl.class);
+	private final static Logger LOG = LoggerFactory
+			.getLogger(WorldCoreImpl.class);
 
-	private final Map<String, List<Drawable>> drawableObjects;
-	private final Map<String, List<Moveable>> moveableObjects;
+	private transient final Map<String, List<Drawable>> drawableObjects;
+	private transient final Map<String, List<Moveable>> moveableObjects;
 
 	public WorldCoreImpl() {
 		drawableObjects = new Hashtable<String, List<Drawable>>();
@@ -24,14 +25,15 @@ public class WorldCoreImpl implements WorldCore {
 	}
 
 	public Drawable getDrawableObject(final String objectName) {
-		final List<Drawable> drawables = getDrawableObjects(objectName);
+		Drawable drawable = null;
 
-		if (drawables != null && !drawables.isEmpty()) {
-			return drawables.get(0);
-		} else {
+		final List<Drawable> drawables = getDrawableObjects(objectName);
+		if (drawables == null || drawables.isEmpty()) {
 			LOG.debug("can't find drawable object '{}'", objectName);
-			return null;
+		} else {
+			drawable = drawables.get(0);
 		}
+		return drawable;
 	}
 
 	public List<Drawable> getDrawableObjects(final String objectName) {
@@ -39,79 +41,89 @@ public class WorldCoreImpl implements WorldCore {
 	}
 
 	public void addObject(final String objectName, final Drawable drawable) {
-		if (drawableObjects.containsKey(objectName)) {
-			drawableObjects.get(objectName).add(drawable);
+		if (getDrawableObjects().containsKey(objectName)) {
+			getDrawableObjects().get(objectName).add(drawable);
 		} else {
 			final List<Drawable> objectList = new ArrayList<Drawable>();
 			objectList.add(drawable);
-			drawableObjects.put(objectName, objectList);
+			getDrawableObjects().put(objectName, objectList);
 		}
 	}
 
 	@Override
 	public List<Moveable> getAllMoveables() {
-		final Collection<List<Moveable>> allValues = moveableObjects.values();
-		final List<Moveable> allMoveableObjects = new ArrayList<Moveable>();
+		final Collection<List<Moveable>> allValues = getMoveableObjects()
+				.values();
+		final List<Moveable> allObjects = new ArrayList<Moveable>();
 		for (final List<Moveable> list : allValues) {
-			allMoveableObjects.addAll(list);
+			allObjects.addAll(list);
 		}
 
-		return allMoveableObjects;
+		return allObjects;
 	}
 
 	@Override
 	public void cleanMoveables() {
-		final Set<String> keys = moveableObjects.keySet();
+		final Set<String> keys = getMoveableObjects().keySet();
 
 		for (final String key : keys) {
-			final List<Moveable> entries = moveableObjects.get(key);
-			final List<Moveable> stillActiveEntries = new ArrayList<Moveable>();
+			final List<Moveable> entries = getMoveableObjects().get(key);
+			final List<Moveable> activeEntries = cleanMoveables(entries);
 
-			for (final Moveable moveable : entries) {
-
-				if (!moveable.isDestroyed()) {
-					stillActiveEntries.add(moveable);
-				}
-
-			}
-
-			moveableObjects.put(key, stillActiveEntries);
+			getMoveableObjects().put(key, activeEntries);
 
 		}
 
 	}
 
+	private List<Moveable> cleanMoveables(final List<Moveable> entries) {
+		final List<Moveable> activeEntries = new ArrayList<Moveable>();
+
+		for (final Moveable moveable : entries) {
+
+			if (!moveable.isDestroyed()) {
+				activeEntries.add(moveable);
+			}
+
+		}
+		return activeEntries;
+	}
+
 	@Override
 	public List<Drawable> getAllDrawables() {
-		final Collection<List<Drawable>> allValues = drawableObjects.values();
+		final Collection<List<Drawable>> allValues = getDrawableObjects()
+				.values();
 
-		final List<Drawable> allDrawableObjects = new ArrayList<Drawable>();
+		final List<Drawable> allObjects = new ArrayList<Drawable>();
 		for (final List<Drawable> list : allValues) {
-			allDrawableObjects.addAll(list);
+			allObjects.addAll(list);
 		}
-		return allDrawableObjects;
+		return allObjects;
 	}
 
 	@Override
 	public void addMoveable(final String objectName, final Moveable moveable) {
 
-		final boolean containsKey = moveableObjects.containsKey(objectName);
+		final boolean containsKey = getMoveableObjects()
+				.containsKey(objectName);
 
 		if (containsKey) {
-			final List<Moveable> list = moveableObjects.get(objectName);
+			final List<Moveable> list = getMoveableObjects().get(objectName);
 			list.add(moveable);
 		} else {
 			final List<Moveable> list = new ArrayList<Moveable>();
 			list.add(moveable);
-			moveableObjects.put(objectName, list);
+			getMoveableObjects().put(objectName, list);
 		}
 
 	}
 
 	@Override
 	public Moveable getMoveable(final String objectName) {
-		final List<Moveable> objects = getMoveableObjects(objectName);
 		Moveable moveable = null;
+		
+		final List<Moveable> objects = getMoveableObjects(objectName);
+		
 		if (objects != null && !objects.isEmpty()) {
 			moveable = objects.get(0);
 		}
@@ -120,15 +132,16 @@ public class WorldCoreImpl implements WorldCore {
 
 	@Override
 	public List<Moveable> getMoveableObjects(final String objectName) {
-		final List<Moveable> allMoveableObjects = new ArrayList<Moveable>();
+		final List<Moveable> allObjects = new ArrayList<Moveable>();
 
-		final List<Moveable> moveableObjectList = moveableObjects.get(objectName);
+		final List<Moveable> moveableObjs = moveableObjects
+				.get(objectName);
 
-		if (moveableObjectList != null) {
-			allMoveableObjects.addAll(moveableObjectList);
+		if (moveableObjs != null) {
+			allObjects.addAll(moveableObjs);
 		}
 
-		return allMoveableObjects;
+		return allObjects;
 
 	}
 
@@ -145,20 +158,28 @@ public class WorldCoreImpl implements WorldCore {
 	@Override
 	public List<String> getMoveableObjectNames() {
 
-		return new ArrayList<String>(moveableObjects.keySet());
+		return new ArrayList<String>(getMoveableObjects().keySet());
 	}
 
 	@Override
 	public void resetWorld() {
 		LOG.debug("resetting world");
-		moveableObjects.clear();
-		drawableObjects.clear();
+		getMoveableObjects().clear();
+		getDrawableObjects().clear();
 
 	}
 
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public Map<String, List<Drawable>> getDrawableObjects() {
+		return drawableObjects;
+	}
+
+	public Map<String, List<Moveable>> getMoveableObjects() {
+		return moveableObjects;
 	}
 
 }
