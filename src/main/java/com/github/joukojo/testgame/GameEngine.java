@@ -21,7 +21,7 @@ public class GameEngine {
 
 	private MonsterCreatorTask creatorTask;
 	private CollisionDetectionWorker collisionDetector;
-	private GraphicEngineWorker graphicEngineWorker;
+	private GraphicEngineWorker gEngineWorker;
 	private WorldCoreTask worldCoreTask;
 
 	private ExecutorService executorService;
@@ -48,7 +48,7 @@ public class GameEngine {
 
 		setCollisionDetector(new CollisionDetectionWorker());
 
-		setGraphicEngineWorker(new GraphicEngineWorker(engine));
+		setgEngineWorker(new GraphicEngineWorker(engine));
 
 		setWorldCoreTask(new WorldCoreTask());
 
@@ -60,7 +60,7 @@ public class GameEngine {
 		LOG.debug("starting up the game engine");
 		getExecutorService().execute(getMonsterCreatorTask());
 		getExecutorService().execute(getCollisionDetector());
-		getExecutorService().execute(getGraphicEngineWorker());
+		getExecutorService().execute(getgEngineWorker());
 		getExecutorService().execute(getWorldCoreTask());
 
 	}
@@ -68,7 +68,7 @@ public class GameEngine {
 	public void stopGame() {
 		getMonsterCreatorTask().setIsrunning(false);
 		getCollisionDetector().setRunning(false);
-		getGraphicEngineWorker().setRunning(false);
+		getgEngineWorker().setRunning(false);
 		getWorldCoreTask().setRunning(false);
 
 		getExecutorService().shutdownNow();
@@ -87,11 +87,11 @@ public class GameEngine {
 	}
 
 	public MonsterCreatorTask getMonsterCreatorTask() {
-		return creatorTask;
+		return getCreatorTask();
 	}
 
 	public void setMonsterCreatorTask(final MonsterCreatorTask creatorTask) {
-		this.creatorTask = creatorTask;
+		this.setCreatorTask(creatorTask);
 	}
 
 	public CollisionDetectionWorker getCollisionDetector() {
@@ -100,14 +100,6 @@ public class GameEngine {
 
 	public void setCollisionDetector(final CollisionDetectionWorker collisionDetector) {
 		this.collisionDetector = collisionDetector;
-	}
-
-	public GraphicEngineWorker getGraphicEngineWorker() {
-		return graphicEngineWorker;
-	}
-
-	public void setGraphicEngineWorker(final GraphicEngineWorker gEngineWorker) {
-		this.graphicEngineWorker = gEngineWorker;
 	}
 
 	public WorldCoreTask getWorldCoreTask() {
@@ -124,6 +116,22 @@ public class GameEngine {
 
 	public void setExecutorService(final ExecutorService executorService) {
 		this.executorService = executorService;
+	}
+
+	public MonsterCreatorTask getCreatorTask() {
+		return creatorTask;
+	}
+
+	public void setCreatorTask(final MonsterCreatorTask creatorTask) {
+		this.creatorTask = creatorTask;
+	}
+
+	public GraphicEngineWorker getgEngineWorker() {
+		return gEngineWorker;
+	}
+
+	public void setgEngineWorker(final GraphicEngineWorker gEngineWorker) {
+		this.gEngineWorker = gEngineWorker;
 	}
 
 }

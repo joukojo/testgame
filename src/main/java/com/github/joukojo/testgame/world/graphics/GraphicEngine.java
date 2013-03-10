@@ -26,22 +26,21 @@ import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
 public class GraphicEngine extends JFrame {
 
-	private final static Logger LOG = LoggerFactory
+	protected final static Logger LOG = LoggerFactory
 			.getLogger(GraphicEngine.class);
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	protected static final long serialVersionUID = 1L;
 	
-	private transient final BufferedImage bufferedImage;
-	private transient final BufferStrategy bufferStrategy;
+	protected transient final BufferedImage bufferedImage;
+	protected transient final BufferStrategy bufferStrategy;
 
 	public GraphicEngine(final GraphicsConfiguration gConfiguration) {
 		
 		super(gConfiguration);
 		setTitle("testgame - alpha");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
 		
 		setUndecorated(true);
 		setSize(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
@@ -94,7 +93,7 @@ public class GraphicEngine extends JFrame {
 		}
 	}
 
-	private void drawBufferImage() {
+	protected void drawBufferImage() {
 		Graphics2D graphics2d = null;
 		try {
 			graphics2d = bufferedImage.createGraphics();
@@ -113,13 +112,13 @@ public class GraphicEngine extends JFrame {
 		}
 	}
 
-	private void drawBackground(final Graphics2D graphics2d) {
+	protected void drawBackground(final Graphics2D graphics2d) {
 		final Color background = Color.BLACK;
 		graphics2d.setColor(background);
 		graphics2d.fillRect(0, 0, DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 	}
 
-	private void drawStatusTexts(final Graphics2D graphics2d) {
+	protected void drawStatusTexts(final Graphics2D graphics2d) {
 		graphics2d.setFont(new Font("Courier New", Font.PLAIN, 12));
 		graphics2d.setColor(Color.GREEN);
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
