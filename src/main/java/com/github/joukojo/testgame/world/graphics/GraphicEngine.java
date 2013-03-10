@@ -145,20 +145,20 @@ public class GraphicEngine extends JFrame {
 
 	}
 
-	protected void drawDrawableObjects(final Graphics g,
+	protected void drawDrawableObjects(final Graphics graphics,
 			final List<Drawable> allDrawables) {
 		for (final Drawable drawable : allDrawables) {
 			LOG.trace("drawing object: {}", drawable);
-			drawable.draw(g);
+			drawable.draw(graphics);
 		}
 
 		LOG.trace("all drawable objects drawn");
 	}
 
-	protected void drawMoveableObjects(final Graphics g,
+	protected void drawMoveableObjects(final Graphics graphics,
 			final List<Moveable> allMoveables) {
 		for (final Drawable drawable : allMoveables) {
-			drawable.draw(g);
+			drawable.draw(graphics);
 		}
 		LOG.trace("all moveable objects drawn");
 	}
