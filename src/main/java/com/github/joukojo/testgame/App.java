@@ -28,7 +28,7 @@ public final class App {
 			LOG.debug("starting the game engine");
 			GameEngine.getInstance().startGame();
 
-			final Player player = (Player) WorldCoreFactory.getWorld().getMoveable("player");
+			final Player player = (Player) WorldCoreFactory.getWorld().getMoveable(Constants.PLAYER);
 
 			while (!player.isDestroyed()) {
 				Thread.sleep(200L);
