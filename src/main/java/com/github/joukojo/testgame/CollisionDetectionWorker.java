@@ -11,18 +11,17 @@ import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
 public class CollisionDetectionWorker implements Runnable {
 
-	private final static Logger LOG = LoggerFactory
-			.getLogger(CollisionDetectionWorker.class);
-	private volatile boolean isRunning;
+	private final static Logger LOG = LoggerFactory.getLogger(CollisionDetectionWorker.class);
+	private volatile boolean running;
 
 	@Override
 	public void run() {
-		final WorldCore worldCore = WorldCoreFactory.getWorld();
+		
 		setRunning(true);
 		while (isRunning()) {
-			handleBulletCollisions(worldCore);
+			handleBulletCollisions(WorldCoreFactory.getWorld());
 
-			handlePlayerCollisions(worldCore);
+			handlePlayerCollisions(WorldCoreFactory.getWorld());
 
 			Thread.yield();
 		}
@@ -131,11 +130,11 @@ public class CollisionDetectionWorker implements Runnable {
 	}
 
 	public boolean isRunning() {
-		return isRunning;
+		return running;
 	}
 
 	public void setRunning(final boolean isRunning) {
-		this.isRunning = isRunning;
+		this.running = isRunning;
 	}
 
 }
