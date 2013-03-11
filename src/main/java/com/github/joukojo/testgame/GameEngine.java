@@ -29,12 +29,7 @@ public class GameEngine {
 
 	public void init() {
 		
-		final GraphicsEnvironment env = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-		final GraphicsDevice[] devices = env.getScreenDevices();
-		
-	
-		final GraphicsConfiguration graphicsEngine = devices[0].getDefaultConfiguration();
+		final GraphicsConfiguration graphicsEngine = createGraphicConfiguration();
 	
 		final GraphicEngine engine = new GraphicEngine(graphicsEngine);
 
@@ -54,6 +49,16 @@ public class GameEngine {
 
 		setExecutorService(Executors.newCachedThreadPool());
 
+	}
+
+	protected GraphicsConfiguration createGraphicConfiguration() {
+		final GraphicsEnvironment env = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+		final GraphicsDevice[] devices = env.getScreenDevices();
+		
+	
+		return devices[0].getDefaultConfiguration();
+		
 	}
 
 	public void startGame() {
