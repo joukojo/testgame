@@ -1,5 +1,6 @@
 package com.github.joukojo.testgame;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,8 +10,13 @@ import com.github.joukojo.testgame.world.core.Moveable;
 import com.github.joukojo.testgame.world.core.WorldCore;
 import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
-public class CollisionDetectionWorker implements Runnable {
+public class CollisionDetectionWorker implements Runnable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final static Logger LOG = LoggerFactory.getLogger(CollisionDetectionWorker.class);
 	private volatile boolean running;
 
@@ -22,13 +28,14 @@ public class CollisionDetectionWorker implements Runnable {
 			handleBulletCollisions(WorldCoreFactory.getWorld());
 
 			handlePlayerCollisions(WorldCoreFactory.getWorld());
-
+			// as this is a never ending loop, 
+			// temporarily pause and allow other threads to execute
 			Thread.yield();
 		}
 
 	}
 
-	private void handleBulletCollisions(final WorldCore worldCore) {
+	protected void handleBulletCollisions(final WorldCore worldCore) {
 		final List<Moveable> bullets = worldCore
 				.getMoveableObjects(Constants.BULLETS);
 
@@ -79,7 +86,7 @@ public class CollisionDetectionWorker implements Runnable {
 		}
 	}
 
-	private void isBulletAndMonsterInCollision(final WorldCore worldCore,
+	protected void isBulletAndMonsterInCollision(final WorldCore worldCore,
 			final Bullet bullet, final Monster monster) {
 		if (!monster.isDestroyed() && !bullet.isDestroyed()) {
 
@@ -105,7 +112,7 @@ public class CollisionDetectionWorker implements Runnable {
 		}
 	}
 
-	private void isPlayerAndMonsterInCollision(final Player player,
+	protected void isPlayerAndMonsterInCollision(final Player player,
 			final Monster monster) {
 		if (!monster.isDestroyed()) {
 
