@@ -17,7 +17,7 @@ public class Bullet implements Moveable {
 	private double directionX = 0.0;
 	private double directionY = 0.0;
 	
-	private boolean destroyed = false;
+	private boolean isDestroyed = false;
 	private static final ImageObserver OBSERVER = null;
 
 	public int getLocationX() {
@@ -77,11 +77,11 @@ public class Bullet implements Moveable {
 	}
 
 	public boolean isDestroyed() {
-		return destroyed;
+		return isDestroyed;
 	}
 
 	public void setDestroyed(final boolean isDestroyed) {
-		this.destroyed = isDestroyed;
+		this.isDestroyed = isDestroyed;
 	}
 
 	@Override

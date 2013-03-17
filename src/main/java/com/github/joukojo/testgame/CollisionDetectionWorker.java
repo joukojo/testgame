@@ -18,7 +18,7 @@ public class CollisionDetectionWorker implements Runnable, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private final static Logger LOG = LoggerFactory.getLogger(CollisionDetectionWorker.class);
-	private volatile boolean running;
+	private  boolean running;
 
 	@Override
 	public void run() {

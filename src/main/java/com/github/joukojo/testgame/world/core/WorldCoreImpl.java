@@ -1,5 +1,6 @@
 package com.github.joukojo.testgame.world.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
@@ -11,7 +12,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WorldCoreImpl implements WorldCore {
+public class WorldCoreImpl implements WorldCore, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private final static Logger LOG = LoggerFactory
 			.getLogger(WorldCoreImpl.class);

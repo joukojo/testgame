@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * @author joukojo
  * 
  */
-public class WorldCoreTask implements Runnable {
+public class WorldCoreTask implements Runnable, java.io.Serializable {
 
 	private transient volatile boolean isWorldRunning;
 	private final static Logger LOG = LoggerFactory.getLogger(WorldCoreTask.class);
@@ -50,6 +50,7 @@ public class WorldCoreTask implements Runnable {
 				Thread.sleep(20);
 				LOG.trace("Slept.");
 			} catch (final InterruptedException e) {
+				LOG.warn("Thread sleep interrupted:" + e.getMessage(), e);
 				Thread.currentThread().interrupt();
 			}
 

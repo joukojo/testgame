@@ -1,10 +1,16 @@
 package com.github.joukojo.testgame.world.graphics;
 
+import java.io.Serializable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GraphicEngineWorker implements Runnable {
+public class GraphicEngineWorker implements Runnable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient final GraphicEngine graphicEngine;
 	private transient volatile boolean isRunning;
 	private final static Logger LOG = LoggerFactory.getLogger(GraphicEngineWorker.class);

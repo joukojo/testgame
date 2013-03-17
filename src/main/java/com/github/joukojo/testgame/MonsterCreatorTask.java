@@ -15,7 +15,7 @@ public class MonsterCreatorTask implements Runnable {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(MonsterCreatorTask.class);
 
-	private volatile boolean isrunning;
+	private  boolean isrunning;
 
 	private final Random random = new Random();
 
