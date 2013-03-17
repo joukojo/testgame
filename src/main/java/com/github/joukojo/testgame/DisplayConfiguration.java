@@ -10,6 +10,14 @@ public class DisplayConfiguration {
 
 	private DisplayMode displayMode;
 
+	private static DisplayConfiguration instance = new DisplayConfiguration();
+
+	static {
+		instance.init();
+
+	}
+
+	
 	public void init() {
 		final GraphicsEnvironment gEnvironment = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
@@ -28,12 +36,6 @@ public class DisplayConfiguration {
 		return getDisplayMode().getWidth();
 	}
 
-	private static DisplayConfiguration instance = new DisplayConfiguration();
-
-	static {
-		instance.init();
-
-	}
 
 	public static DisplayConfiguration getInstance() {
 		return instance;

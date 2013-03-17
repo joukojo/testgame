@@ -145,4 +145,12 @@ public class GameEngine {
 		return ReflectionToStringBuilder.toString(this);
 	}
 
+	public GraphicEngineWorker getgEngineWorker() {
+		return gEngineWorker;
+	}
+
+	public void setgEngineWorker(GraphicEngineWorker gEngineWorker) {
+		this.gEngineWorker = gEngineWorker;
+	}
+
 }
