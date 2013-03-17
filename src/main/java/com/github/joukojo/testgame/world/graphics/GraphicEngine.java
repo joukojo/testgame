@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -161,5 +162,8 @@ public class GraphicEngine extends JFrame {
 		}
 		LOG.trace("all moveable objects drawn");
 	}
-
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
+	}
 }

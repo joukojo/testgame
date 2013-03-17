@@ -2,6 +2,7 @@ package com.github.joukojo.testgame.world.core;
 
 import java.util.List;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +14,10 @@ import org.slf4j.LoggerFactory;
  */
 public class WorldCoreTask implements Runnable, java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient volatile boolean isWorldRunning;
 	private final static Logger LOG = LoggerFactory.getLogger(WorldCoreTask.class);
 
@@ -73,5 +78,10 @@ public class WorldCoreTask implements Runnable, java.io.Serializable {
 
 	public void setRunning(final boolean isRunning) {
 		this.isWorldRunning = isRunning;
+	}
+	
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
 	}
 }

@@ -2,6 +2,7 @@ package com.github.joukojo.testgame.world.graphics;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +13,7 @@ public class GraphicEngineWorker implements Runnable, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient final GraphicEngine graphicEngine;
-	private transient volatile boolean isRunning;
+	private boolean isRunning;
 	private final static Logger LOG = LoggerFactory.getLogger(GraphicEngineWorker.class);
 
 	public GraphicEngineWorker(final GraphicEngine graphicEngine) {
@@ -51,5 +52,8 @@ public class GraphicEngineWorker implements Runnable, Serializable {
 	public void setRunning(final boolean isRunning) {
 		this.isRunning = isRunning;
 	}
-
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
+	}
 }
