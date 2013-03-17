@@ -3,6 +3,7 @@ package com.github.joukojo.testgame;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,4 +145,8 @@ public class CollisionDetectionWorker implements Runnable, Serializable {
 		this.running = isRunning;
 	}
 
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
+	}
 }

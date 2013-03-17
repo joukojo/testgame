@@ -6,6 +6,7 @@ import java.awt.GraphicsEnvironment;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,6 +138,11 @@ public class GameEngine {
 
 	public void setGEngineWorker(final GraphicEngineWorker gEngineWorker) {
 		this.gEngineWorker = gEngineWorker;
+	}
+	
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
 	}
 
 }

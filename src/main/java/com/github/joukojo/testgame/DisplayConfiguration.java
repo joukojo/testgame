@@ -4,6 +4,8 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
 public class DisplayConfiguration {
 
 	private DisplayMode displayMode;
@@ -43,6 +45,11 @@ public class DisplayConfiguration {
 
 	public void setDisplayMode(final DisplayMode displayMode) {
 		this.displayMode = displayMode;
+	}
+	
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
 	}
 
 }
