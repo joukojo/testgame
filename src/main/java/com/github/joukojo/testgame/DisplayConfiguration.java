@@ -10,19 +10,16 @@ public class DisplayConfiguration {
 
 	private DisplayMode displayMode;
 
-	private static DisplayConfiguration instance = new DisplayConfiguration();
+	private final static DisplayConfiguration INSTANCE = new DisplayConfiguration();
 
 	static {
-		instance.init();
+		INSTANCE.init();
 
 	}
 
-	
 	public void init() {
-		final GraphicsEnvironment gEnvironment = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-		final GraphicsDevice graphicsDevice = gEnvironment
-				.getDefaultScreenDevice();
+		final GraphicsEnvironment gEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		final GraphicsDevice graphicsDevice = gEnvironment.getDefaultScreenDevice();
 		setDisplayMode(graphicsDevice.getDisplayMode());
 
 	}
@@ -36,9 +33,8 @@ public class DisplayConfiguration {
 		return getDisplayMode().getWidth();
 	}
 
-
 	public static DisplayConfiguration getInstance() {
-		return instance;
+		return INSTANCE;
 	}
 
 	public DisplayMode getDisplayMode() {
@@ -48,7 +44,7 @@ public class DisplayConfiguration {
 	public void setDisplayMode(final DisplayMode displayMode) {
 		this.displayMode = displayMode;
 	}
-	
+
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);

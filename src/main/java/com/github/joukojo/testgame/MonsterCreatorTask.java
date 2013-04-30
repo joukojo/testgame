@@ -3,6 +3,7 @@ package com.github.joukojo.testgame;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,10 +13,9 @@ import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
 public class MonsterCreatorTask implements Runnable {
 
-	private final static Logger LOG = LoggerFactory
-			.getLogger(MonsterCreatorTask.class);
+	private final static Logger LOG = LoggerFactory.getLogger(MonsterCreatorTask.class);
 
-	private  boolean isrunning;
+	private boolean isrunning;
 
 	private final Random random = new Random();
 
@@ -36,8 +36,7 @@ public class MonsterCreatorTask implements Runnable {
 		LOG.debug("current level: {}", level);
 		for (int i = 0; i < level * 2; i++) {
 			final Monster monster = Monster.factory();
-			monster.setLocationX(getRandom().nextInt(
-					DisplayConfiguration.getInstance().getWidth() - 100));
+			monster.setLocationX(getRandom().nextInt(DisplayConfiguration.getInstance().getWidth() - 100));
 			monster.setLocationY(0);
 
 			worldCore.addMoveable(Constants.MONSTERS, monster);
@@ -68,8 +67,7 @@ public class MonsterCreatorTask implements Runnable {
 	public void clearMonsterOutsideOfViewPoint() {
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 
-		final List<Moveable> moveableMonsters = worldCore
-				.getMoveableObjects(Constants.MONSTERS);
+		final List<Moveable> moveableMonsters = worldCore.getMoveableObjects(Constants.MONSTERS);
 		if (moveableMonsters == null || moveableMonsters.isEmpty()) {
 			incrementLevel();
 			createMonsters();
@@ -81,15 +79,11 @@ public class MonsterCreatorTask implements Runnable {
 
 		}
 
-		final List<Moveable> bullets = worldCore
-				.getMoveableObjects(Constants.BULLETS);
+		final List<Moveable> bullets = worldCore.getMoveableObjects(Constants.BULLETS);
 
 		if (bullets != null && !bullets.isEmpty()) {
 			for (final Moveable moveable : bullets) {
-				if (moveable != null
-						&& moveable.isOutside(DisplayConfiguration
-								.getInstance().getWidth(), DisplayConfiguration
-								.getInstance().getHeight())) {
+				if (moveable != null && moveable.isOutside(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight())) {
 					moveable.setDestroyed(true);
 				}
 			}
@@ -97,15 +91,12 @@ public class MonsterCreatorTask implements Runnable {
 
 	}
 
-	private void clearMonsterOutsideOfViewPoint(final WorldCore worldCore,
-			final Moveable moveable) {
-		if (moveable.isOutside(DisplayConfiguration.getInstance().getWidth(),
-				DisplayConfiguration.getInstance().getWidth())) {
+	private void clearMonsterOutsideOfViewPoint(final WorldCore worldCore, final Moveable moveable) {
+		if (moveable.isOutside(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getWidth())) {
 
 			if (!moveable.isDestroyed()) {
 				// The monster has reached the down -> decrease health
-				final Player player = (Player) worldCore
-						.getMoveable(Constants.PLAYER);
+				final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
 				player.setHealth(player.getHealth() - 10);
 			}
 
@@ -123,5 +114,10 @@ public class MonsterCreatorTask implements Runnable {
 
 	public Random getRandom() {
 		return random;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this).toString();
 	}
 }

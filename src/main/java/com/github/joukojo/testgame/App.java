@@ -16,6 +16,7 @@ public final class App {
 	private App() {
 		// do not instantiate
 	}
+
 	private static final Logger LOG = LoggerFactory.getLogger(App.class);
 
 	public static void main(final String[] args) throws InterruptedException {
@@ -36,8 +37,7 @@ public final class App {
 			}
 
 			GameEngine.getInstance().stopGame();
-			JOptionPane.showMessageDialog(null,
-					"Game Over!\nScore: " + player.getScore());
+			JOptionPane.showMessageDialog(null, "Game Over!\nScore: " + player.getScore());
 			WorldCoreFactory.getWorld().resetWorld();
 		}
 

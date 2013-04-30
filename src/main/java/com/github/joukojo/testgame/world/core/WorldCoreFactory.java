@@ -11,16 +11,16 @@ public final class WorldCoreFactory {
 	private WorldCoreFactory() {
 		// no instantiate 
 	}
-	private static WorldCore instance;
+	private static WorldCore INSTANCE;
 
 	public static WorldCore getWorld() {
 		synchronized (WorldCoreFactory.class) {
-			if (instance == null) {
+			if (INSTANCE == null) {
 				LOG.debug("creating world instance");
-				instance = new WorldCoreImpl();
+				INSTANCE = new WorldCoreImpl();
 			}
 		}
-		return instance;
+		return INSTANCE;
 	}
 
 }

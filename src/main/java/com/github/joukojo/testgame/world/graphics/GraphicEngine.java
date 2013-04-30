@@ -27,22 +27,21 @@ import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
 public class GraphicEngine extends JFrame {
 
-	protected final static Logger LOG = LoggerFactory
-			.getLogger(GraphicEngine.class);
+	protected final static Logger LOG = LoggerFactory.getLogger(GraphicEngine.class);
 	/**
 	 * 
 	 */
 	protected static final long serialVersionUID = 1L;
-	
+
 	protected transient final BufferedImage bufferedImage;
 	protected transient final BufferStrategy bufferStrategy;
 
 	public GraphicEngine(final GraphicsConfiguration gConfiguration) {
-		
+
 		super(gConfiguration);
 		setTitle("testgame - alpha");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
+
 		setUndecorated(true);
 		setSize(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 		final Canvas canvas = new Canvas();
@@ -51,7 +50,7 @@ public class GraphicEngine extends JFrame {
 		final PlayerMoveListener mouseListener = new PlayerMoveListener();
 		canvas.addMouseMotionListener(mouseListener);
 		canvas.addMouseListener(mouseListener);
-
+		canvas.addKeyListener(mouseListener);
 		add(canvas);
 
 		setLocationRelativeTo(null);
@@ -64,7 +63,6 @@ public class GraphicEngine extends JFrame {
 		bufferedImage = gConfiguration.createCompatibleImage(DisplayConfiguration.getInstance().getWidth(), DisplayConfiguration.getInstance().getHeight());
 
 	}
-
 
 	public void drawObjects() {
 		LOG.trace("drawing objects");
@@ -145,8 +143,7 @@ public class GraphicEngine extends JFrame {
 
 	}
 
-	protected void drawDrawableObjects(final Graphics graphics,
-			final List<Drawable> allDrawables) {
+	protected void drawDrawableObjects(final Graphics graphics, final List<Drawable> allDrawables) {
 		for (final Drawable drawable : allDrawables) {
 			LOG.trace("drawing object: {}", drawable);
 			drawable.draw(graphics);
@@ -155,13 +152,13 @@ public class GraphicEngine extends JFrame {
 		LOG.trace("all drawable objects drawn");
 	}
 
-	protected void drawMoveableObjects(final Graphics graphics,
-			final List<Moveable> allMoveables) {
+	protected void drawMoveableObjects(final Graphics graphics, final List<Moveable> allMoveables) {
 		for (final Drawable drawable : allMoveables) {
 			drawable.draw(graphics);
 		}
 		LOG.trace("all moveable objects drawn");
 	}
+
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);

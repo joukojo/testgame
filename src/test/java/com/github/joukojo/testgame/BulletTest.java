@@ -1,7 +1,8 @@
 package com.github.joukojo.testgame;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.junit.Test;
 
 public class BulletTest {
@@ -16,4 +17,8 @@ public class BulletTest {
 		fail("Not yet implemented");
 	}
 
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this).toString();
+	}
 }

@@ -23,7 +23,7 @@
 	
 	
 	<logger name="com.github.joukojo.testgame.PlayerMoveListener">
-		<level value="warn" />
+		<level value="debug" />
 	</logger>
 	
 	<logger name="com.github.joukojo.testgame.Player">

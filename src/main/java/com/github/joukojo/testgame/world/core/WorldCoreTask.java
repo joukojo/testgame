@@ -27,7 +27,7 @@ public class WorldCoreTask implements Runnable, java.io.Serializable {
 
 	@Override
 	public void run() {
-		
+
 		final int existingPriority = Thread.currentThread().getPriority();
 		final Thread currentThread = Thread.currentThread();
 		currentThread.setPriority(Thread.MIN_PRIORITY);
@@ -77,9 +77,9 @@ public class WorldCoreTask implements Runnable, java.io.Serializable {
 	}
 
 	public void setRunning(final boolean isRunning) {
-		this.isWorldRunning = isRunning;
+		isWorldRunning = isRunning;
 	}
-	
+
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);

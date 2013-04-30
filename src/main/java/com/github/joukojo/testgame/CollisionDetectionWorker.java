@@ -17,19 +17,19 @@ public class CollisionDetectionWorker implements Runnable, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private final static Logger LOG = LoggerFactory.getLogger(CollisionDetectionWorker.class);
-	private  boolean running;
+	private boolean running;
 
 	@Override
 	public void run() {
-		
+
 		setRunning(true);
 		while (isRunning()) {
 			handleBulletCollisions(WorldCoreFactory.getWorld());
 
 			handlePlayerCollisions(WorldCoreFactory.getWorld());
-			// as this is a never ending loop, 
+			// as this is a never ending loop,
 			// temporarily pause and allow other threads to execute
 			Thread.yield();
 		}
@@ -37,14 +37,13 @@ public class CollisionDetectionWorker implements Runnable, Serializable {
 	}
 
 	protected void handleBulletCollisions(final WorldCore worldCore) {
-		final List<Moveable> bullets = worldCore
-				.getMoveableObjects(Constants.BULLETS);
+		final List<Moveable> bullets = worldCore.getMoveableObjects(Constants.BULLETS);
 
 		if (bullets != null && !bullets.isEmpty()) {
 			for (final Moveable moveableBullet : bullets) {
 				final Bullet bullet = (Bullet) moveableBullet;
 				if (bullet != null) {
-					isBulletInCollisionWithMonster(worldCore, bullet);
+					doesBulletInCollisionWithMonster(worldCore, bullet);
 				}
 			}
 		}
@@ -53,8 +52,7 @@ public class CollisionDetectionWorker implements Runnable, Serializable {
 	protected void handlePlayerCollisions(final WorldCore worldCore) {
 		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
 		if (player != null) {
-			final List<Moveable> monsters = worldCore
-					.getMoveableObjects(Constants.MONSTERS);
+			final List<Moveable> monsters = worldCore.getMoveableObjects(Constants.MONSTERS);
 
 			if (monsters != null) {
 				for (final Moveable moveable : monsters) {
@@ -65,30 +63,26 @@ public class CollisionDetectionWorker implements Runnable, Serializable {
 		}
 	}
 
-	private void handlePlayerCollision(final Player player,
-			final Moveable moveable) {
+	private void handlePlayerCollision(final Player player, final Moveable moveable) {
 		final Monster monster = (Monster) moveable;
 		if (monster != null && !monster.isDestroyed()) {
-			isPlayerAndMonsterInCollision(player, monster);
+			doesPlayerAndMonsterInCollision(player, monster);
 		}
 	}
 
-	private void isBulletInCollisionWithMonster(final WorldCore worldCore,
-			final Bullet bullet) {
-		final List<Moveable> monsters = worldCore
-				.getMoveableObjects(Constants.MONSTERS);
+	private void doesBulletInCollisionWithMonster(final WorldCore worldCore, final Bullet bullet) {
+		final List<Moveable> monsters = worldCore.getMoveableObjects(Constants.MONSTERS);
 		if (monsters != null && !monsters.isEmpty()) {
 			for (final Moveable moveableMonster : monsters) {
 				final Monster monster = (Monster) moveableMonster;
 				if (monster != null && bullet != null) {
-					isBulletAndMonsterInCollision(worldCore, bullet, monster);
+					doesBulletAndMonsterInCollision(worldCore, bullet, monster);
 				}
 			}
 		}
 	}
 
-	protected void isBulletAndMonsterInCollision(final WorldCore worldCore,
-			final Bullet bullet, final Monster monster) {
+	protected void doesBulletAndMonsterInCollision(final WorldCore worldCore, final Bullet bullet, final Monster monster) {
 		if (!monster.isDestroyed() && !bullet.isDestroyed()) {
 
 			// correct the monster location
@@ -106,15 +100,13 @@ public class CollisionDetectionWorker implements Runnable, Serializable {
 				monster.setDestroyed(true);
 				bullet.setDestroyed(true);
 
-				final Player player = (Player) worldCore
-						.getMoveable(Constants.PLAYER);
+				final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
 				player.setScore(player.getScore() + 100);
 			}
 		}
 	}
 
-	protected void isPlayerAndMonsterInCollision(final Player player,
-			final Monster monster) {
+	protected void doesPlayerAndMonsterInCollision(final Player player, final Monster monster) {
 		if (!monster.isDestroyed()) {
 
 			// correct the monster location
@@ -133,16 +125,22 @@ public class CollisionDetectionWorker implements Runnable, Serializable {
 				monster.setDestroyed(true);
 
 				player.setHealth(player.getHealth() - 1);
+				player.notify();
 			}
 		}
 	}
 
+	/**
+	 * Gets the status of the collision detector
+	 * 
+	 * @return true if the detector is running.
+	 */
 	public boolean isRunning() {
 		return running;
 	}
 
 	public void setRunning(final boolean isRunning) {
-		this.running = isRunning;
+		running = isRunning;
 	}
 
 	@Override

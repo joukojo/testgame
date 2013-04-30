@@ -26,7 +26,7 @@ public class GameEngine {
 	private WorldCoreTask worldCoreTask;
 
 	private ExecutorService executorService;
-	private static GameEngine instance;
+	private static GameEngine INSTANCE;
 
 	public void init() {
 		
@@ -84,12 +84,12 @@ public class GameEngine {
 	public static  GameEngine getInstance() {
 
 		synchronized (GameEngine.class) {
-			if (instance == null) {
-				instance = new GameEngine();
+			if (INSTANCE == null) {
+				INSTANCE = new GameEngine();
 			}
 		}
 
-		return instance;
+		return INSTANCE;
 	}
 
 	public MonsterCreatorTask getMonsterCreatorTask() {

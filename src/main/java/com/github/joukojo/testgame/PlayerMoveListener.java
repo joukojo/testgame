@@ -1,6 +1,8 @@
 package com.github.joukojo.testgame;
 
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -12,9 +14,8 @@ import org.slf4j.LoggerFactory;
 import com.github.joukojo.testgame.world.core.WorldCore;
 import com.github.joukojo.testgame.world.core.WorldCoreFactory;
 
-public class PlayerMoveListener implements MouseMotionListener, MouseListener {
-	private final static Logger LOG = LoggerFactory
-			.getLogger(PlayerMoveListener.class);
+public class PlayerMoveListener implements MouseMotionListener, MouseListener, KeyListener {
+	private final static Logger LOG = LoggerFactory.getLogger(PlayerMoveListener.class);
 
 	@Override
 	public void mouseClicked(final MouseEvent mouseEvent) {
@@ -27,7 +28,7 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 
 	@Override
 	public void mousePressed(final MouseEvent mouseEvent) {
-		
+
 		if (LOG.isDebugEnabled()) {
 			final Point locationOnScreen = mouseEvent.getLocationOnScreen();
 			LOG.debug("mouse pressed");
@@ -35,6 +36,11 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 			LOG.debug("location y: {}", locationOnScreen.y);
 		}
 
+		fireBullet();
+
+	}
+
+	private void fireBullet() {
 		final WorldCore worldCore = WorldCoreFactory.getWorld();
 
 		final Player player = (Player) worldCore.getMoveable(Constants.PLAYER);
@@ -47,7 +53,6 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 			bullet.setLocationY(player.getPositionY());
 			worldCore.addMoveable(Constants.BULLETS, bullet);
 		}
-
 	}
 
 	@Override
@@ -100,9 +105,32 @@ public class PlayerMoveListener implements MouseMotionListener, MouseListener {
 		}
 
 	}
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	@Override
+	public void keyTyped(final KeyEvent keyEvent) {
+		// TODO Auto-generated method stub
+		LOG.trace("key pressed: {}", keyEvent);
+	}
+
+	@Override
+	public void keyPressed(final KeyEvent keyEvent) {
+		LOG.trace("key pressed: {}", keyEvent);
+		final boolean isSpace = keyEvent.getKeyCode() == KeyEvent.VK_SPACE;
+
+		if (isSpace) {
+			fireBullet();
+		}
+	}
+
+	@Override
+	public void keyReleased(final KeyEvent keyEvent) {
+		LOG.trace("key pressed: {}", keyEvent);
+
 	}
 
 }

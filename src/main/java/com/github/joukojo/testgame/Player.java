@@ -11,6 +11,12 @@ import org.slf4j.LoggerFactory;
 import com.github.joukojo.testgame.images.ImageFactory;
 import com.github.joukojo.testgame.world.core.Moveable;
 
+/**
+ * Player class for storing the player location
+ * 
+ * @author joukojo
+ * 
+ */
 public class Player implements Moveable {
 
 	private final static Logger LOG = LoggerFactory.getLogger(Player.class);
@@ -23,6 +29,11 @@ public class Player implements Moveable {
 	private Point point = new Point(300, 300);
 	private int positionX = 0;
 
+	/**
+	 * Gets the player position x coordinates in area
+	 * 
+	 * @return location in x
+	 */
 	public int getPositionX() {
 		return positionX;
 	}
@@ -67,11 +78,10 @@ public class Player implements Moveable {
 	@Override
 	public void draw(final Graphics graphics) {
 		final BufferedImage image = ImageFactory.getImageForDegree(1);
-		
+
 		graphics.drawImage(image, positionX, positionY, null);
 
 	}
-
 
 	@Override
 	public void move() {
@@ -79,8 +89,8 @@ public class Player implements Moveable {
 		final int targetX = getPoint().x;
 		final int targetY = getPoint().y;
 
-		directionX = ((targetX - positionX) * 0.05);
-		directionY = ((targetY - positionY) * 0.05);
+		directionX = (targetX - positionX) * 0.05;
+		directionY = (targetY - positionY) * 0.05;
 
 		final double newPositionX = positionX + directionX;
 		final double newPositionY = positionY + directionY;
@@ -112,8 +122,7 @@ public class Player implements Moveable {
 
 	@Override
 	public boolean isOutside(final int xCoord, final int yCoord) {
-		return (positionX > xCoord || positionX < 0)
-				|| (positionY > yCoord || positionY < 0);
+		return positionX > xCoord || positionX < 0 || positionY > yCoord || positionY < 0;
 	}
 
 	@Override

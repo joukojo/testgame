@@ -8,13 +8,14 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ImageFactory {
 
-	private static BufferedImage bulletImage;
-	private static BufferedImage monsterImage;
+	private static BufferedImage BULLETIMAGE;
+	private static BufferedImage MONSTERIMAGE;
 	private static BufferedImage playerNorthImage;
 	private static BufferedImage playerNorthEastImage;
 	private static BufferedImage playerEastImage;
@@ -23,6 +24,7 @@ public class ImageFactory {
 	private static BufferedImage playerSouthWestImage;
 	private static BufferedImage playerWestImage;
 	private static BufferedImage playerNorthWestImage;
+	private static Map<Integer, BufferedImage> IMAGES = new HashMap<Integer, BufferedImage>();
 
 	private static final Logger LOG = LoggerFactory.getLogger(ImageFactory.class);
 
@@ -54,29 +56,29 @@ public class ImageFactory {
 
 	public synchronized static BufferedImage getBulletImage() {
 
-		if (bulletImage == null) {
+		if (BULLETIMAGE == null) {
 			final BufferedImage fullImage = loadPlayerImage();
 			try {
-				bulletImage = fullImage.getSubimage(186, 210, 15, 15);
+				BULLETIMAGE = fullImage.getSubimage(186, 210, 15, 15);
 			} finally {
 				fullImage.flush();
 			}
 		}
-		return bulletImage;
+		return BULLETIMAGE;
 	}
 
 	public synchronized static BufferedImage getMonsterImage() {
 
-		if (monsterImage == null) {
+		if (MONSTERIMAGE == null) {
 			final BufferedImage fullImage = loadMonsterImage();
 			try {
-				monsterImage = fullImage.getSubimage(140, 1, 68, 45);
+				MONSTERIMAGE = fullImage.getSubimage(140, 1, 68, 45);
 			} finally {
 				fullImage.flush();
 			}
 		}
 
-		return monsterImage;
+		return MONSTERIMAGE;
 	}
 
 	public synchronized static BufferedImage getPlayerNorthImage() {
@@ -191,16 +193,19 @@ public class ImageFactory {
 		return playerNorthWestImage;
 	}
 
-	private static Map<Integer, BufferedImage> images = new HashMap<Integer, BufferedImage>();
-
 	public static BufferedImage getImageForDegree(final int value) {
 
-		if (!images.containsKey(value)) {
+		if (!IMAGES.containsKey(value)) {
 			final BufferedImage image = loadImageFromFile("/images/player-" + value + ".png");
-			images.put(value, image);
+			IMAGES.put(value, image);
 		}
 
-		return images.get(value);
+		return IMAGES.get(value);
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this).toString();
 	}
 
 }
